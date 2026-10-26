@@ -31,10 +31,6 @@ const concepts = [
       <div class="hero-accent hero-accent-2"></div>
       <div class="hero-accent hero-accent-3"></div>
       <div class="hero-content">
-        <div class="hero-badge">
-          <span class="hero-badge-dot"></span>
-          <span class="hero-badge-text">v1.0 Stable</span>
-        </div>
         <h1 class="hero-title">
           RBX <span class="gradient-text">DDD</span> Architecture
         </h1>
@@ -282,35 +278,6 @@ const concepts = [
   top: 60%;
   left: 40%;
   background: radial-gradient(circle, rgba(139, 92, 246, 0.08), transparent 70%);
-}
-
-/* Version badge */
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  background: rgba(139, 92, 246, 0.08);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 9999px;
-  margin-bottom: 16px;
-  animation: fadeIn 200ms ease-out both;
-}
-
-.hero-badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #22c55e;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
-}
-
-.hero-badge-text {
-  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--vp-c-brand-3, #a78bfa);
-  letter-spacing: 0.02em;
 }
 
 .hero-content {
@@ -781,8 +748,7 @@ const concepts = [
   .hero-code,
   .card,
   .btn,
-  .strip-link,
-  .hero-badge {
+  .strip-link {
     animation: none;
     transition: none;
   }
