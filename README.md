@@ -36,7 +36,7 @@ Studio Play
     │
     ▼
 server/bootstrapper (Script)
-    ├── loads services/*.lua ──► require + count
+    ├── loads services/*.lua ──► require + count (initialized once, no start())
     ├── loads controllers/*.lua ──► require + validates start()
     ├── executes controller:start() in order
     └── workspace.ServerLoaded = true
@@ -53,33 +53,38 @@ client/bootstrapper (LocalScript)
 ### Generated tree
 
 ```
+workspace/
+├── Client/                    ← local rendering folder (per-player visuals)
+└── Server/                    ← replication/rendering folder (all players)
+
 ReplicatedStorage/
 └── shared/                    ← shared code
-    ├── definitions/           ← types, enums, constants
+    ├── definitions/           ← data contracts/schemas (types, enums, constants)
     ├── events/                ← RemoteEvent/RemoteFunction wrappers
-    ├── index/                 ← barrel exports
-    ├── packages/              ← external libs
-    └── utils/                 ← pure helpers
+    ├── index/                 ← pure data tables (return { ... }, no methods)
+    ├── registry/              ← data modules returning tables directly
+    ├── packages/              ← external libs (Warp, KoltStore, Spring, etc.)
+    └── utils/                 ← pure functions (+ *Helper modules for queries)
 
 ServerScriptService/
 └── server/                    ← authoritative logic
     ├── bootstrapper           ← Script (entry point)
-    ├── classes/               ← domain models (DDD entities/value objects)
-    ├── controllers/           ← use case orchestration
-    ├── services/              ← infrastructure (DataStore, HTTP, messaging)
+    ├── classes/               ← stateful domain objects
+    ├── controllers/           ← orchestrate systems; function controllerName:start()
+    ├── services/              ← long-lived; initialized once; return 0; no start()
     └── utils/                 ← server-only helpers
 
 StarterPlayer/StarterPlayerScripts/
 └── client/                    ← presentation and prediction
     ├── bootstrapper           ← LocalScript (entry point)
     ├── classes/               ← remote entity clients
-    ├── entities/              ← local player/world states
-    ├── controllers/           ← input handlers, camera, animations
-    ├── services/              ← AudioService, TweenService wrappers
+    ├── entities/              ← client game object representations
+    ├── controllers/           ← input handlers, camera, animations; start()
+    ├── services/              ← AudioService, TweenService wrappers; return 0
     ├── ui/
     │   ├── frames/            ← individual ScreenGui components
-    │   ├── helpers/           ← UI utilities (layout, theme)
-    │   └── hud                ← ModuleScript (orchestrates frames)
+    │   ├── helpers/           ← UI interaction helpers
+    │   └── hud                ← ModuleScript (UI bootstrapper; return 0)
     └── utils/                 ← client-only helpers
 ```
 
@@ -112,66 +117,124 @@ loadstring(source)()
 
 ---
 
+## Code rules
+
+These are strict conventions baked into the architecture:
+
+| Rule | Detail |
+|---|---|
+| **English only** | Identifiers, strings, logs, error messages. Zero Portuguese in code. |
+| **No comments** | Unless explicitly requested. |
+| **camelCase** | Local variables, member values, functions, params, table keys. |
+| **PascalCase** | Types/classes and Roblox API references. |
+| **LOUD_SNAKE_CASE** | `const` bindings holding config or service references. Enum members exempt. |
+| **Services always `const`** | Never `local`. Module refs, configs, singletons: `const`. Mutable state, loop counters, accumulators: `local`. |
+
+---
+
 ## Writing your first module
 
 ### Service
 
-A service is a ModuleScript that returns a table with methods. No need to call anything special — the bootstrapper does `require` automatically.
+A service is a long-lived infrastructure module. It initializes once when required and returns `0`. No `start()` method.
 
 ```lua
 -- server/services/DataStoreService.lua
-local DataStoreService = game:GetService("DataStoreService")
+const DataStoreService = game:GetService("DataStoreService")
 
-local store = DataStoreService:GetDataStore("PlayerData_v1")
+const store = DataStoreService:GetDataStore("PlayerData_v1")
+
+local function loadData(player: Player): {[string]: any}?
+	local ok, result = pcall(store.GetAsync, store, `player_{player.UserId}`)
+	if not ok then
+		warn(`[DataService] Load failed for {player.Name}: {result}`)
+		return nil
+	end
+	return result
+end
+
+local function saveData(player: Player, data: {[string]: any}): boolean
+	local ok, err = pcall(store.SetAsync, store, `player_{player.UserId}`, data)
+	if not ok then
+		warn(`[DataService] Save failed for {player.Name}: {err}`)
+		return false
+	end
+	return true
+end
 
 return {
-	Load = function(player: Player): {[string]: any}?
-		local ok, result = pcall(store.GetAsync, store, `player_{player.UserId}`)
-		if not ok then
-			warn(`[DataService] Load failed for {player.Name}: {result}`)
-			return nil
-		end
-		return result
-	end,
-
-	Save = function(player: Player, data: {[string]: any}): boolean
-		local ok, err = pcall(store.SetAsync, store, `player_{player.UserId}`, data)
-		if not ok then
-			warn(`[DataService] Save failed for {player.Name}: {err}`)
-			return false
-		end
-		return true
-	end,
+	Load = loadData,
+	Save = saveData,
 }
 ```
 
 ### Controller
 
-A controller must return `{ start = function(self) }`. The bootstrapper calls `start()` after all services load.
+A controller orchestrates a system using its lifecycle hook. Must return `{ start = function(self) }`. The bootstrapper calls `start()` after all services load.
 
 ```lua
 -- server/controllers/PlayerJoinController.lua
-local Players = game:GetService("Players")
-local DataService = require(script.Parent.Parent.services.DataStoreService)
+const Players = game:GetService("Players")
+const DataService = require(script.Parent.Parent.services.DataStoreService)
+
+local function onPlayerAdded(player: Player)
+	local data = DataService.Load(player)
+	if not data then
+		data = { coins = 0, level = 1 }
+	end
+	player:SetAttribute("Coins", data.coins)
+	player:SetAttribute("Level", data.level)
+end
+
+local function onPlayerRemoving(player: Player)
+	DataService.Save(player, {
+		coins = player:GetAttribute("Coins"),
+		level = player.GetAttribute("Level"),
+	})
+end
 
 return {
 	start = function(self)
-		Players.PlayerAdded:Connect(function(player)
-			local data = DataService.Load(player)
-			if not data then
-				data = { coins = 0, level = 1 }
-			end
-			player:SetAttribute("Coins", data.coins)
-			player:SetAttribute("Level", data.level)
-		end)
-
-		Players.PlayerRemoving:Connect(function(player)
-			DataService.Save(player, {
-				coins = player:GetAttribute("Coins"),
-				level = player:GetAttribute("Level"),
-			})
-		end)
+		Players.PlayerAdded:Connect(onPlayerAdded)
+		Players.PlayerRemoving:Connect(onPlayerRemoving)
 	end,
+}
+```
+
+### Registry / Index module
+
+Pure data contracts. Return the table directly. No intermediate variable. No `table.freeze()`.
+
+```lua
+-- shared/registry/weapons.lua
+return {
+	{
+		id = "sword_basic",
+		name = "Iron Sword",
+		damage = 15,
+	},
+	{
+		id = "bow_hunter",
+		name = "Hunter Bow",
+		damage = 22,
+	},
+}
+```
+
+Wrong (do NOT do this):
+
+```lua
+local weapons = {}
+weapons.sword = { damage = 15 }
+table.freeze(weapons)
+return table.freeze(weapons)
+```
+
+Correct:
+
+```lua
+return {
+	sword = { damage = 15 },
 }
 ```
 
@@ -181,15 +244,12 @@ Each frame in `client/ui/frames/` is a ModuleScript that returns a function. The
 
 ```lua
 -- client/ui/frames/CoinCounter.lua
-local CoinsLabel = script.Parent:WaitForChild("CoinsLabel"):: TextLabel
+const CoinsLabel = script.Parent:WaitForChild("CoinsLabel"):: TextLabel
+const LocalPlayer = game.Players.LocalPlayer
 
 return function()
-	workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(function()
-		-- reposition logic
-	end)
-
-	game.Players.LocalPlayer:GetAttributeChangedSignal("Coins"):Connect(function()
-		local coins = game.Players.LocalPlayer:GetAttribute("Coins")
+	LocalPlayer:GetAttributeChangedSignal("Coins"):Connect(function()
+		local coins = LocalPlayer:GetAttribute("Coins")
 		CoinsLabel.Text = `${coins} coins`
 	end)
 end
@@ -201,8 +261,10 @@ end
 
 | Path | Type | Contract |
 |---|---|---|
-| `*/services/*.lua` | ModuleScript | Returns `table`. Any public method. Require failure aborts that service but continues others. |
-| `*/controllers/*.lua` | ModuleScript | Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. |
+| `*/services/*.lua` | ModuleScript | Long-lived infrastructure. Initializes once. Returns table with public methods OR `return 0` if side-effect only. No `start()`. Require failure aborts that service but continues others. |
+| `*/controllers/*.lua` | ModuleScript | Orchestration layer. Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. Called after all services load. |
+| `shared/index/*.lua` | ModuleScript | Pure data. Direct `return { ... }`. No intermediate var. No freeze. Query/filter/lookup goes in `shared/utils/*Helper`. |
+| `shared/registry/*.lua` | ModuleScript | Single expression `return { key = value, ... }`. Never assign to local first. Never wrap in `table.freeze()`. |
 | `client/ui/frames/*.lua` | ModuleScript | Returns `function()`. Executed in `task.spawn` by the HUD runner. |
 | `client/ui/hud` | ModuleScript | Internal orchestrator. Do not modify without understanding the frame loop. |
 
