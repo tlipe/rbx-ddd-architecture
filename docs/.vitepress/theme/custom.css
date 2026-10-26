@@ -4,6 +4,46 @@
   --vp-c-brand-3: #60a5fa;
   --vp-c-brand-soft: rgba(59, 130, 246, 0.1);
 
+  --rp-blue-primary: #3b82f6;
+  --rp-blue-dark: #1d4ed8;
+  --rp-blue-light: #60a5fa;
+  --rp-blue-deep: #1e40af;
+  --rp-blue-tint: rgba(59, 130, 246, 0.1);
+  --rp-blue-glow: rgba(59, 130, 246, 0.3);
+  --rp-danger: #ef4444;
+  --rp-danger-deep: #b91c1c;
+  --rp-danger-tint: rgba(239, 68, 68, 0.1);
+
+  --vp-font-family-base: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  --vp-nav-height: 64px;
+}
+
+:root[data-theme='light'] {
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f1f5f9;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: #f8fafc;
+  --vp-c-bg-mute: #e2e8f0;
+
+  --vp-c-border: #cbd5e1;
+  --vp-c-divider: #e2e8f0;
+  --vp-c-gutter: #e2e8f0;
+
+  --vp-c-text-1: #0f172a;
+  --vp-c-text-2: #475569;
+  --vp-c-text-3: #64748b;
+
+  --vp-code-block-bg: #f8fafc;
+  --vp-code-line-highlight-color: rgba(59, 130, 246, 0.08);
+
+  --vp-c-default-1: var(--vp-c-gray-1);
+  --vp-c-default-2: var(--vp-c-gray-2);
+  --vp-c-default-3: var(--vp-c-gray-3);
+  --vp-c-default-soft: var(--vp-c-gray-soft);
+}
+
+:root.dark,
+:root[data-theme='dark'] {
   --vp-c-bg: #0a0e1a;
   --vp-c-bg-alt: #0f1629;
   --vp-c-bg-elv: #111827;
@@ -21,11 +61,6 @@
   --vp-code-block-bg: #0f1629;
   --vp-code-line-highlight-color: rgba(59, 130, 246, 0.1);
 
-  --vp-font-family-base: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  --vp-nav-height: 64px;
-}
-
-.dark {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
@@ -137,11 +172,63 @@ div[class*="VPSidebar"] {
   border-right: 1px solid var(--vp-c-border);
 }
 
-div[class*="VPNav"],
+div[class*="VPNav"] {
+  position: relative;
+  z-index: var(--z-index-header, 30);
+}
+
 div[class*="VPNavBar"],
-div[class*="VPFlyout"] {
+.VPNavBar {
+  height: var(--vp-nav-height);
+  min-height: var(--vp-nav-height);
   background-color: var(--vp-c-bg-elv);
   border-bottom: 1px solid var(--vp-c-border);
+  overflow: visible;
+}
+
+.VPNavBar .content {
+  display: flex;
+  align-items: center;
+  height: var(--vp-nav-height);
+  gap: 24px;
+}
+
+.VPNavBar .content-body {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.VPNavBar .title {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.VPNavBar .VPImage {
+  flex-shrink: 0;
+}
+
+.VPNavBarTitle .title-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.VPNavBar .curtain {
+  background-color: var(--vp-c-bg-elv);
+}
+
+.VPFlyout {
+  background-color: var(--vp-c-bg-elv);
+}
+
+.VPFlyout .items {
+  background-color: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-border);
 }
 
 div[class*="VPDocAsideOutline"] {
@@ -168,16 +255,21 @@ div[class*="local-search-box"] input:focus {
 }
 
 .vp-doc code:not(pre code) {
-  background-color: var(--vp-c-bg-elv);
-  color: var(--vp-c-brand-3);
+  background-color: var(--vp-c-bg-soft);
+  color: var(--vp-c-brand-1);
   padding: 2px 6px;
-  border: 1px solid var(--vp-c-border);
+  border: none;
   border-radius: 0;
+}
+
+:root.dark .vp-doc code:not(pre code),
+:root[data-theme='dark'] .vp-doc code:not(pre code) {
+  color: var(--vp-c-brand-3);
 }
 
 div[class*="vp-adaptive-theme"] {
   background-color: var(--vp-code-block-bg) !important;
-  border: 1px solid var(--vp-c-border);
+  border: none;
 }
 
 div[class*="language-"] pre {
@@ -187,8 +279,8 @@ div[class*="language-"] pre {
 }
 
 div[class*="language-"] .line-numbers-wrapper {
-  background-color: var(--vp-c-bg-elv);
-  color: var(--vp-c-text-2);
+  background-color: transparent;
+  color: var(--vp-c-text-3);
   border-right: none;
 }
 
@@ -204,13 +296,13 @@ span[class*="copy"] {
 
 span[class*="copy"]:hover {
   color: var(--vp-c-brand-1);
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 12px var(--rp-blue-glow);
 }
 
 .VPButton.brand,
 a.VPButton.brand,
 button.VPButton.brand {
-  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  background: linear-gradient(135deg, var(--rp-blue-deep), var(--rp-blue-primary));
   color: #ffffff;
   border: none;
   transition: box-shadow 200ms ease-out;
@@ -219,7 +311,7 @@ button.VPButton.brand {
 .VPButton.brand:hover,
 a.VPButton.brand:hover,
 button.VPButton.brand:hover {
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 12px var(--rp-blue-glow);
 }
 
 .VPButton.alt,
@@ -234,7 +326,7 @@ button.VPButton.alt {
 .VPButton.alt:hover,
 a.VPButton.alt:hover,
 button.VPButton.alt:hover {
-  background-color: rgba(59, 130, 246, 0.1);
+  background-color: var(--rp-blue-tint);
 }
 
 .custom-block,
@@ -243,8 +335,11 @@ div[class*="VPWarning"],
 div[class*="VPInfo"],
 div[class*="VPDanger"],
 div[class*="VPDetails"] {
-  background-color: var(--vp-c-bg-alt);
+  background-color: var(--vp-c-bg-soft);
   border-left: 4px solid var(--vp-c-brand-1);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
   padding: 16px 20px;
   margin: 24px 0;
   border-radius: 0;
@@ -255,7 +350,7 @@ div[class*="VPTip"] {
 }
 
 div[class*="VPWarning"] {
-  border-left-color: #ef4444;
+  border-left-color: var(--rp-danger);
 }
 
 div[class*="VPInfo"] {
@@ -263,7 +358,7 @@ div[class*="VPInfo"] {
 }
 
 div[class*="VPDanger"] {
-  border-left-color: #b91c1c;
+  border-left-color: var(--rp-danger-deep);
 }
 
 div[class*="VPDetails"] {
@@ -287,7 +382,7 @@ div[class*="VPTip"] .custom-block-title {
 }
 
 div[class*="VPWarning"] .custom-block-title {
-  color: #ef4444;
+  color: var(--rp-danger);
 }
 
 div[class*="VPInfo"] .custom-block-title {
@@ -295,7 +390,7 @@ div[class*="VPInfo"] .custom-block-title {
 }
 
 div[class*="VPDanger"] .custom-block-title {
-  color: #b91c1c;
+  color: var(--rp-danger-deep);
 }
 
 div[class*="VPDetails"] summary {
@@ -322,7 +417,7 @@ div[class*="VPDetails"] .details-content p {
 }
 
 .vp-doc th {
-  background-color: var(--vp-c-bg-elv);
+  background-color: var(--vp-c-bg-soft);
   color: var(--vp-c-text-1);
   font-weight: 600;
   text-align: left;
@@ -342,7 +437,10 @@ div[class*="VPDetails"] .details-content p {
 
 .vp-doc blockquote {
   border-left: 4px solid var(--vp-c-brand-1);
-  background-color: var(--vp-c-bg-alt);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+  background-color: var(--vp-c-bg-soft);
   padding: 16px 20px;
   margin: 24px 0;
   color: var(--vp-c-text-2);
@@ -377,7 +475,7 @@ summary:focus-visible {
 }
 
 ::selection {
-  background-color: rgba(59, 130, 246, 0.3);
+  background-color: var(--rp-blue-glow);
   color: var(--vp-c-text-1);
 }
 
@@ -397,6 +495,16 @@ summary:focus-visible {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+.Layout.sidebar-home div[class*="VPSidebar"] {
+  display: none;
+}
+
+@media (min-width: 961px) {
+  .Layout.sidebar-home main {
+    padding-left: 0;
+  }
 }
 
 @media print {
