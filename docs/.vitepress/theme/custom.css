@@ -497,13 +497,13 @@ summary:focus-visible {
   background: #475569;
 }
 
-html.hide-sidebar div[class*="VPSidebar"] {
+.hide-sidebar div[class*="VPSidebar"] {
   display: none;
 }
 
 @media (min-width: 961px) {
-  html.hide-sidebar main,
-  html.hide-sidebar .Layout {
+  .hide-sidebar main,
+  .hide-sidebar .VPDoc {
     padding-left: 0 !important;
   }
 }
