@@ -5,7 +5,7 @@ export default defineConfig({
   title: 'RBX DDD Architecture',
   description: 'Domain-Driven Design for Roblox Studio',
   base: '/rbx-ddd-architecture/',
-  appearance: true,
+  appearance: 'dark',
   lastUpdated: true,
   cleanUrls: true,
   head: [
