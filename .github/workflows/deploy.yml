@@ -39,7 +39,7 @@ jobs:
 
       - name: Create .nojekyll in dist
         run: |
-          echo "" > docs/.vitepress/dist/.nojekyll
+          touch docs/.vitepress/dist/.nojekyll
           ls -la docs/.vitepress/dist/ | grep nojekyll
 
       - name: Upload artifact
