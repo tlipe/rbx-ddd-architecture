@@ -88,105 +88,23 @@ StarterPlayer/StarterPlayerScripts/
     └── utils/
 ```
 
-### Folder reference
+For detailed folder reference and explanations, see the [full documentation](https://tlipe.github.io/rbx-ddd-architecture/architecture/folder-reference).
 
-#### workspace/Client
+---
 
-Folder holding all client-side rendered instances. Physical objects, visual effects, anything visible only to the local player.
+## AI-Powered Development
 
-#### workspace/Server
+Get intelligent assistance for this architecture with the dedicated DDD skill:
 
-Folder holding all server-authoritative instances. Visible to every player. Replicated physical objects, world effects, shared visuals.
-
-#### shared/definitions
-
-Schemas, contracts, types, enums, constants. Dedicated to data shape agreements used across server and client.
-
-#### shared/events
-
-All server-client connections live here. RemoteEvents, RemoteFunctions, network library wrappers. Each connection gets its own ModuleScript named after the event (e.g. `purchaseItem.luauu`). Inside: code that fires/listens on that connection. Pattern:
-
-```lua
--- code working with this event
-return 0
+```bash
+npx skills add https://github.com/tlipe/based-rbx-skills
 ```
 
-#### shared/index
+This skill provides context-aware guidance, code generation, and best practices for building with this architecture.
 
-Pure data tables. Direct `return { ... }`. No methods attached. Query/filter/lookup helpers belong in `shared/utils/*Helper`.
-
-#### shared/registry
-
-Registrar / voter environment. Modules that record or annotate state, votes, registrations. Single expression `return { key = value, ... }`. Never assign to local first. Never `table.freeze()`.
-
-#### shared/packages
-
-ALL external libraries and ModuleScripts described as libraries. Usually added by the user (Warp, KoltStore, Spring, etc.). Nothing else lives here.
-
-#### shared/utils
-
-Helper/utility ModuleScripts shared by BOTH sides. Pure functions reusable from server and client.
-
-#### server/bootstrapper
-
-Script entry point. Loads services, then controllers, calls `start()` on each, sets `workspace.ServerLoaded`.
-
-#### server/classes
-
-Stateful domain objects. Classes/enums dedicated to specific game objects.
-
-#### server/controllers
-
-Orchestrate systems. Lifecycle hook: `function controllerName:start()`.
-
-#### server/services
-
-Long-lived infrastructure. Initialized once. `return 0`. No `start()` method.
-
-#### server/utils
-
-Helpers dedicated to the SERVER side and its neighbor folders (classes, controllers, services).
-
-#### client/bootstrapper
-
-LocalScript entry point. Waits for `ServerLoaded`, loads services, controllers, HUD, sets `workspace.ClientLoaded`.
-
-#### client/classes
-
-ModuleScripts dedicated to classes or enums of specific objects. Same purpose as `server/classes` but scoped to the client.
-
-#### client/entities
-
-ModuleScripts acting 100% on in-game entities renderable on the client. Requires a server-client connection strategy. Dedicated to optimization and rendering of entities (including players).
-
-#### client/controllers
-
-Input handlers, camera, animations. Uses `start()`.
-
-#### client/services
-
-AudioService/TweenService wrappers. `return 0`.
-
-#### client/ui/frames
-
-One ModuleScript per UI surface. The module name IS the UI it programs (e.g. `shopCoin.luauu`, `shopSwords.luau`, `inventoryFrame.luau`). Inside: normal code building that interface. Pattern:
-
-```lua
--- code programming the determined interface
-return 0
-```
-
-#### client/ui/helpers
-
-Quick reusable helpers scoped to the frames folder. Shared utilities consumed by sibling frame modules.
-
-#### client/ui/hud
-
-ModuleScript orchestrating frames. Runs each frame via `task.spawn`. Returns `0`.
-
-#### client/utils
-
-Helpers dedicated to the CLIENT side and its neighbor folders (classes, entities, controllers, services).
+**Learn more:**
+- [Skills Repository](https://github.com/tlipe/based-rbx-skills)
+- [DDD Skill Documentation](https://github.com/tlipe/based-rbx-skills/blob/main/skills/roblox-ddd/SKILL.md)
 
 ---
 

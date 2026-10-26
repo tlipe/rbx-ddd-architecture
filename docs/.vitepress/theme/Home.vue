@@ -45,30 +45,6 @@ const concepts = [
       </div>
     </section>
 
-    <div class="hero-code-showcase">
-      <div class="hero-code">
-        <div class="code-titlebar">
-          <span class="code-dot"></span>
-          <span class="code-dot"></span>
-          <span class="code-dot"></span>
-          <span class="code-filename">Studio Output</span>
-        </div>
-        <div class="code-body-wrapper">
-          <pre class="code-body"><code><span class="code-log-service">[SERVICE]</span> Loading DataStoreService...
-<span class="code-log-service">[SERVICE]</span> Loaded DataStoreService.
-<span class="code-log-service">[SERVICE]</span> Loading PlayerService...
-<span class="code-log-service">[SERVICE]</span> Loaded PlayerService.
-<span class="code-log-controller">[CONTROLLER]</span> Registered PlayerJoinController.
-<span class="code-log-controller">[CONTROLLER]</span> Registered InventoryController.
-<span class="code-log-controller">[CONTROLLER]</span> Start: PlayerJoinController.
-<span class="code-log-controller">[CONTROLLER]</span> Start: InventoryController.
-<span class="code-log-server">[SERVER]</span> Server fully loaded in <span class="code-log-success">0.04s</span>.
-<span class="code-log-client">[CLIENT]</span> Server loaded. Timestamp: <span class="code-log-success">1730000000</span>.</code></pre>
-          <div class="code-fade"></div>
-        </div>
-      </div>
-    </div>
-
     <div class="section-divider"></div>
 
     <section class="concepts">
@@ -96,6 +72,55 @@ const concepts = [
         <h2 class="card-title">{{ concept.title }}</h2>
         <p class="card-body">{{ concept.body }}</p>
       </article>
+    </section>
+
+    <div class="hero-code-showcase">
+      <div class="hero-code">
+        <div class="code-titlebar">
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-filename">Studio Output</span>
+        </div>
+        <div class="code-body-wrapper">
+          <pre class="code-body"><code><span class="code-log-service">[SERVICE]</span> Loading DataStoreService...
+<span class="code-log-service">[SERVICE]</span> Loaded DataStoreService.
+<span class="code-log-service">[SERVICE]</span> Loading PlayerService...
+<span class="code-log-service">[SERVICE]</span> Loaded PlayerService.
+<span class="code-log-controller">[CONTROLLER]</span> Registered PlayerJoinController.
+<span class="code-log-controller">[CONTROLLER]</span> Registered InventoryController.
+<span class="code-log-controller">[CONTROLLER]</span> Start: PlayerJoinController.
+<span class="code-log-controller">[CONTROLLER]</span> Start: InventoryController.
+<span class="code-log-server">[SERVER]</span> Server fully loaded in <span class="code-log-success">0.04s</span>.
+<span class="code-log-client">[CLIENT]</span> Server loaded. Timestamp: <span class="code-log-success">1730000000</span>.</code></pre>
+          <div class="code-fade"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <section class="skills-recommendation">
+      <div class="skills-card">
+        <div class="skills-header">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <path d="M14 2L4 7v14l10 5 10-5V7L14 2z" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+            <path d="M14 12l-5-3 5-3 5 3-5 3z" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+            <path d="M9 9v10l5 3 5-3V9" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+          </svg>
+          <h2 class="skills-title">Get the DDD Skill</h2>
+        </div>
+        <p class="skills-description">
+          Install the dedicated skill for this architecture and get AI-powered guidance for your Roblox DDD projects.
+        </p>
+        <div class="skills-command">
+          <code>npx skills add https://github.com/tlipe/based-rbx-skills</code>
+        </div>
+        <div class="skills-links">
+          <a href="https://github.com/tlipe/based-rbx-skills" target="_blank" rel="noopener" class="skills-link">Skills Repository</a>
+          <a href="https://github.com/tlipe/based-rbx-skills/blob/main/skills/roblox-ddd/SKILL.md" target="_blank" rel="noopener" class="skills-link">DDD Skill Docs</a>
+        </div>
+      </div>
     </section>
 
     <section class="manifesto">
@@ -427,9 +452,95 @@ const concepts = [
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding: 48px 32px 64px;
+  padding: 48px 32px;
   max-width: 960px;
   margin: 0 auto;
+}
+
+.skills-recommendation {
+  padding: 64px 32px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.skills-card {
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border, #2e2e2e);
+  border-radius: 8px;
+  padding: 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.skills-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-3, #a78bfa), var(--vp-c-brand-1));
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: gradientShift 4s ease infinite;
+}
+
+.skills-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.skills-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  margin: 0;
+}
+
+.skills-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
+  margin: 0 0 32px 0;
+}
+
+.skills-command {
+  background-color: var(--vp-c-bg-alt, #242424);
+  border: 1px solid var(--vp-c-border, #2e2e2e);
+  border-radius: 6px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+}
+
+.skills-command code {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 14px;
+  color: var(--vp-c-brand-1);
+  font-weight: 600;
+}
+
+.skills-links {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.skills-link {
+  color: var(--vp-c-brand-1);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 200ms ease-out;
+}
+
+.skills-link:hover {
+  color: var(--vp-c-brand-3, #a78bfa);
+  text-decoration: underline;
 }
 
 .card {
