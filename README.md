@@ -18,7 +18,7 @@ DDD architecture for Roblox Studio. Services, controllers, HUD bootstrap.
 
 ```lua
 local HttpService = game:GetService("HttpService")
-local url = "https://raw.githubusercontent.com/tlipe/rbx-ddd-architecture/master/install.lua"
+local url = "https://raw.githubusercontent.com/tlipe/rbx-ddd-architecture/main/install.lua"
 local ok, source = pcall(HttpService.GetAsync, HttpService, url)
 if not ok then error(source) end
 loadstring(source)()
