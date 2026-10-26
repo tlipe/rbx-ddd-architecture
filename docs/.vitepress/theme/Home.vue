@@ -1,4 +1,18 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
+const commandCopied = ref(false)
+
+const copyCommand = async () => {
+  try {
+    await navigator.clipboard.writeText('npx skills add https://github.com/tlipe/based-rbx-skills')
+    commandCopied.value = true
+    setTimeout(() => { commandCopied.value = false }, 2000)
+  } catch (err) {
+    console.error('Failed to copy:', err)
+  }
+}
+
 const concepts = [
   {
     title: 'Server-Authoritative',
@@ -110,7 +124,10 @@ const concepts = [
           Install the dedicated skill for this architecture and get AI-powered guidance for your Roblox DDD projects.
         </p>
         <div class="skills-command">
-          <code>npx skills add https://github.com/tlipe/based-rbx-skills</code>
+          <code @click="copyCommand" class="skills-command-code">npx skills add https://github.com/tlipe/based-rbx-skills</code>
+          <button @click="copyCommand" class="skills-copy-btn" :class="{ copied: commandCopied }">
+            {{ commandCopied ? '✓ Copied' : 'Copy' }}
+          </button>
         </div>
         <div class="skills-links">
           <a href="https://github.com/tlipe/based-rbx-skills" target="_blank" rel="noopener" class="skills-link">Skills Repository</a>
@@ -468,6 +485,10 @@ const concepts = [
   border-radius: 6px;
   padding: 16px 24px;
   margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .skills-command code {
@@ -475,12 +496,44 @@ const concepts = [
   font-size: 14px;
   color: var(--vp-c-brand-1);
   font-weight: 600;
+  cursor: pointer;
+  user-select: all;
+  flex: 1;
+}
+
+.skills-command code:hover {
+  color: var(--vp-c-brand-3, #a78bfa);
+}
+
+.skills-copy-btn {
+  background-color: transparent;
+  border: 1px solid var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  white-space: nowrap;
+}
+
+.skills-copy-btn:hover {
+  background-color: var(--vp-c-brand-1);
+  color: var(--vp-c-bg);
+}
+
+.skills-copy-btn.copied {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: white;
 }
 
 .skills-links {
   display: flex;
   gap: 24px;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .skills-link {
@@ -488,12 +541,17 @@ const concepts = [
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  transition: color 200ms ease-out;
+  transition: all 200ms ease-out;
+  padding: 8px 16px;
+  border: 1px solid var(--vp-c-brand-1);
+  border-radius: 4px;
+  display: inline-block;
 }
 
 .skills-link:hover {
-  color: var(--vp-c-brand-3, #a78bfa);
-  text-decoration: underline;
+  background-color: var(--vp-c-brand-1);
+  color: var(--vp-c-bg);
+  text-decoration: none;
 }
 
 .card {
