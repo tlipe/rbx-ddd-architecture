@@ -32,8 +32,35 @@
   --vp-c-default-soft: var(--vp-c-gray-soft);
 }
 
-* {
-  border-radius: 0 !important;
+.vp-doc,
+.vp-doc p,
+.vp-doc ul,
+.vp-doc ol,
+.vp-doc li,
+.vp-doc section,
+.vp-doc article,
+div[class*="language-"],
+div[class*="language-"] pre,
+table,
+th,
+td,
+div[class*="VPTip"],
+div[class*="VPWarning"],
+div[class*="VPInfo"],
+div[class*="VPDanger"],
+div[class*="VPDetails"],
+div[class*="VPSidebar"],
+div[class*="VPNav"],
+div[class*="VPNavBar"],
+div[class*="VPDocAsideOutline"],
+div[class*="VPDocFooter"] {
+  border-radius: 0;
+}
+
+img {
+  border-radius: 0;
+  max-width: 100%;
+  height: auto;
 }
 
 .vp-button,
@@ -41,6 +68,10 @@
 button,
 input[type="submit"] {
   border-radius: 9999px !important;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -51,6 +82,35 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--vp-c-text-1);
+}
+
+.vp-doc h1:first-child {
+  margin-top: 0;
+}
+
+.vp-doc h2 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.vp-doc h3 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.vp-doc .header-anchor {
+  color: var(--vp-c-brand-1);
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+}
+
+.vp-doc h1:hover .header-anchor,
+.vp-doc h2:hover .header-anchor,
+.vp-doc h3:hover .header-anchor,
+.vp-doc h4:hover .header-anchor,
+.vp-doc h5:hover .header-anchor,
+.vp-doc h6:hover .header-anchor {
+  opacity: 1;
 }
 
 a {
@@ -71,6 +131,8 @@ a:hover {
 }
 
 div[class*="VPSidebar"] {
+  width: 272px;
+  flex-shrink: 0;
   background-color: var(--vp-c-bg-alt);
   border-right: 1px solid var(--vp-c-border);
 }
@@ -84,6 +146,11 @@ div[class*="VPFlyout"] {
 
 div[class*="VPDocAsideOutline"] {
   border-left: 1px solid var(--vp-c-border);
+}
+
+div[class*="VPDocAsideOutline"] .outline-link.active {
+  color: var(--vp-c-brand-1);
+  border-left: 2px solid var(--vp-c-brand-1);
 }
 
 div[class*="VPDocFooter"] {
@@ -100,10 +167,12 @@ div[class*="local-search-box"] input:focus {
   border-color: var(--vp-c-brand-1);
 }
 
-code {
-  background-color: var(--vp-c-bg-alt);
-  color: var(--vp-c-text-1);
+.vp-doc code:not(pre code) {
+  background-color: var(--vp-c-bg-elv);
+  color: var(--vp-c-brand-3);
+  padding: 2px 6px;
   border: 1px solid var(--vp-c-border);
+  border-radius: 0;
 }
 
 div[class*="vp-adaptive-theme"] {
@@ -114,6 +183,17 @@ div[class*="vp-adaptive-theme"] {
 div[class*="language-"] pre {
   background-color: var(--vp-code-block-bg) !important;
   color: var(--vp-c-text-1);
+  overflow-x: auto;
+}
+
+div[class*="language-"] .line-numbers-wrapper {
+  background-color: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-2);
+  border-right: none;
+}
+
+div[class*="language-"] .highlighted-line {
+  background-color: rgba(59, 130, 246, 0.06);
 }
 
 span[class*="copy"] {
@@ -157,6 +237,118 @@ button.VPButton.alt:hover {
   background-color: rgba(59, 130, 246, 0.1);
 }
 
+.custom-block,
+div[class*="VPTip"],
+div[class*="VPWarning"],
+div[class*="VPInfo"],
+div[class*="VPDanger"],
+div[class*="VPDetails"] {
+  background-color: var(--vp-c-bg-alt);
+  border-left: 4px solid var(--vp-c-brand-1);
+  padding: 16px 20px;
+  margin: 24px 0;
+  border-radius: 0;
+}
+
+div[class*="VPTip"] {
+  border-left-color: var(--vp-c-brand-1);
+}
+
+div[class*="VPWarning"] {
+  border-left-color: #ef4444;
+}
+
+div[class*="VPInfo"] {
+  border-left-color: var(--vp-c-brand-3);
+}
+
+div[class*="VPDanger"] {
+  border-left-color: #b91c1c;
+}
+
+div[class*="VPDetails"] {
+  border-left-color: var(--vp-c-brand-1);
+}
+
+.custom-block .custom-block-title,
+div[class*="VPTip"] .custom-block-title,
+div[class*="VPWarning"] .custom-block-title,
+div[class*="VPInfo"] .custom-block-title,
+div[class*="VPDanger"] .custom-block-title,
+div[class*="VPDetails"] summary {
+  font-weight: 600;
+  font-size: 14px;
+  font-family: var(--vp-font-family-base);
+  margin-bottom: 8px;
+}
+
+div[class*="VPTip"] .custom-block-title {
+  color: var(--vp-c-brand-1);
+}
+
+div[class*="VPWarning"] .custom-block-title {
+  color: #ef4444;
+}
+
+div[class*="VPInfo"] .custom-block-title {
+  color: var(--vp-c-brand-3);
+}
+
+div[class*="VPDanger"] .custom-block-title {
+  color: #b91c1c;
+}
+
+div[class*="VPDetails"] summary {
+  color: var(--vp-c-brand-3);
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.custom-block > p,
+.custom-block .custom-block-details,
+div[class*="VPTip"] p,
+div[class*="VPWarning"] p,
+div[class*="VPInfo"] p,
+div[class*="VPDanger"] p,
+div[class*="VPDetails"] .details-content p {
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+}
+
+.vp-doc table {
+  width: 100%;
+  border-collapse: collapse;
+  display: table;
+}
+
+.vp-doc th {
+  background-color: var(--vp-c-bg-elv);
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--vp-c-border);
+}
+
+.vp-doc td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--vp-c-border);
+  color: var(--vp-c-text-1);
+}
+
+.vp-doc tr:hover td {
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+.vp-doc blockquote {
+  border-left: 4px solid var(--vp-c-brand-1);
+  background-color: var(--vp-c-bg-alt);
+  padding: 16px 20px;
+  margin: 24px 0;
+  color: var(--vp-c-text-2);
+  font-style: italic;
+}
+
 div[class*="VPHomeHero"] .name,
 div[class*="VPHomeHero"] .text,
 div[class*="VPHomeHero"] .tagline {
@@ -176,6 +368,19 @@ div[class*="VPHomeFeatures"] .feature .details {
   color: var(--vp-c-text-2);
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: var(--vp-c-text-1);
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -192,4 +397,41 @@ div[class*="VPHomeFeatures"] .feature .details {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #475569;
+}
+
+@media print {
+  div[class*="VPSidebar"],
+  div[class*="VPNav"],
+  div[class*="VPNavBar"],
+  div[class*="VPDocAsideOutline"],
+  div[class*="local-search-box"],
+  span[class*="copy"] {
+    display: none !important;
+  }
+
+  body,
+  .vp-doc,
+  .vp-doc p,
+  .vp-doc li,
+  .vp-doc td,
+  .vp-doc th,
+  .vp-doc h1,
+  .vp-doc h2,
+  .vp-doc h3,
+  .vp-doc h4,
+  .vp-doc h5,
+  .vp-doc h6,
+  .vp-doc a,
+  .vp-doc code,
+  .vp-doc blockquote {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  div[class*="language-"] pre,
+  div[class*="vp-adaptive-theme"] {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cccccc;
+  }
 }
