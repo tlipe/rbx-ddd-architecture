@@ -22,7 +22,19 @@ const concepts = [
   <div class="home">
     <section class="hero">
       <div class="hero-glow"></div>
+      <div class="hero-grid"></div>
+      <div class="hero-corner hero-corner-tl"></div>
+      <div class="hero-corner hero-corner-tr"></div>
+      <div class="hero-corner hero-corner-bl"></div>
+      <div class="hero-corner hero-corner-br"></div>
+      <div class="hero-accent hero-accent-1"></div>
+      <div class="hero-accent hero-accent-2"></div>
+      <div class="hero-accent hero-accent-3"></div>
       <div class="hero-content">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          <span class="hero-badge-text">v1.0 Stable</span>
+        </div>
         <h1 class="hero-title">
           RBX <span class="gradient-text">DDD</span> Architecture
         </h1>
@@ -42,7 +54,12 @@ const concepts = [
           <span class="code-dot"></span>
           <span class="code-filename">Domain/PlayerService.luau</span>
         </div>
-        <pre class="code-body"><code><span class="code-comment">-- Domain/PlayerService.luau</span>
+        <div class="code-body-wrapper">
+          <div class="code-gutter">
+            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+          </div>
+          <pre class="code-body"><code><span class="code-comment">-- Domain/PlayerService.luau</span>
 <span class="code-keyword">local</span> PlayerService = {}
 
 <span class="code-keyword">function</span> <span class="code-fn">PlayerService.new</span>(): PlayerService
@@ -53,8 +70,12 @@ const concepts = [
 <span class="code-keyword">end</span>
 
 <span class="code-keyword">return</span> PlayerService</code></pre>
+          <div class="code-fade"></div>
+        </div>
       </div>
     </section>
+
+    <div class="section-divider"></div>
 
     <section class="concepts">
       <article
@@ -90,6 +111,7 @@ const concepts = [
     </section>
 
     <footer class="strip">
+      <div class="strip-glow"></div>
       <span class="strip-license">MPL-2.0 License</span>
       <a
         class="strip-link"
@@ -106,6 +128,7 @@ const concepts = [
   padding-bottom: 0;
 }
 
+/* ============ HERO ============ */
 .hero {
   position: relative;
   padding: 80px 32px 64px;
@@ -128,6 +151,166 @@ const concepts = [
   background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139, 92, 246, 0.08), transparent);
   pointer-events: none;
   z-index: 0;
+}
+
+/* Dot grid background */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
+}
+
+/* Corner brackets */
+.hero-corner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+.hero-corner::before,
+.hero-corner::after {
+  content: '';
+  position: absolute;
+  background-color: var(--vp-c-brand-1);
+}
+
+.hero-corner-tl {
+  top: 24px;
+  left: 24px;
+}
+.hero-corner-tl::before {
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 24px;
+}
+.hero-corner-tl::after {
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 1px;
+}
+
+.hero-corner-tr {
+  top: 24px;
+  right: 24px;
+}
+.hero-corner-tr::before {
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 24px;
+}
+.hero-corner-tr::after {
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 1px;
+}
+
+.hero-corner-bl {
+  bottom: 24px;
+  left: 24px;
+}
+.hero-corner-bl::before {
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 24px;
+}
+.hero-corner-bl::after {
+  bottom: 0;
+  left: 0;
+  width: 24px;
+  height: 1px;
+}
+
+.hero-corner-br {
+  bottom: 24px;
+  right: 24px;
+}
+.hero-corner-br::before {
+  bottom: 0;
+  right: 0;
+  width: 1px;
+  height: 24px;
+}
+.hero-corner-br::after {
+  bottom: 0;
+  right: 0;
+  width: 24px;
+  height: 1px;
+}
+
+/* Floating accent elements */
+.hero-accent {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(40px);
+}
+
+.hero-accent-1 {
+  width: 120px;
+  height: 120px;
+  top: 10%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 70%);
+}
+
+.hero-accent-2 {
+  width: 80px;
+  height: 80px;
+  bottom: 15%;
+  right: 5%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.1), transparent 70%);
+}
+
+.hero-accent-3 {
+  width: 60px;
+  height: 60px;
+  top: 60%;
+  left: 40%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.08), transparent 70%);
+}
+
+/* Version badge */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 9999px;
+  margin-bottom: 16px;
+  animation: fadeIn 200ms ease-out both;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.hero-badge-text {
+  font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--vp-c-brand-3, #a78bfa);
+  letter-spacing: 0.02em;
 }
 
 .hero-content {
@@ -203,6 +386,7 @@ const concepts = [
   border-color: var(--vp-c-brand-3, #a78bfa);
 }
 
+/* ============ CODE EDITOR ============ */
 .hero-code {
   position: relative;
   z-index: 1;
@@ -241,6 +425,30 @@ const concepts = [
   letter-spacing: 0.02em;
 }
 
+.code-body-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.code-gutter {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px 16px 14px;
+  border-right: 1px solid var(--vp-c-border, #2e2e2e);
+  background-color: rgba(0, 0, 0, 0.15);
+  user-select: none;
+}
+
+.code-gutter span {
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--vp-c-text-2);
+  opacity: 0.5;
+  text-align: right;
+  min-width: 12px;
+}
+
 .code-body {
   margin: 0;
   padding: 16px 18px;
@@ -249,35 +457,88 @@ const concepts = [
   line-height: 1.7;
   color: var(--vp-c-text-1);
   overflow-x: auto;
+  flex: 1;
 }
 
 .code-body code {
   font-family: inherit;
 }
 
+.code-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(to top, var(--vp-c-bg-soft), transparent);
+  pointer-events: none;
+}
+
 .code-comment { color: var(--vp-c-text-2); font-style: italic; }
 .code-keyword { color: var(--vp-c-brand-3, #a78bfa); }
 .code-fn { color: var(--vp-c-brand-1); }
 
+/* ============ SECTION DIVIDER ============ */
+.section-divider {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 1px;
+  position: relative;
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  left: 32px;
+  right: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand-1), transparent);
+  opacity: 0.3;
+}
+
+/* ============ CONCEPTS ============ */
 .concepts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  padding: 0 32px 64px;
+  padding: 48px 32px 64px;
   max-width: 960px;
   margin: 0 auto;
 }
 
 .card {
+  position: relative;
   background-color: var(--vp-c-bg-soft);
   border: 1px solid var(--vp-c-border, #2e2e2e);
   padding: 32px;
   transition: all 200ms ease-out;
   border-radius: 4px;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-3, #a78bfa), var(--vp-c-brand-1));
+  background-size: 200% 200%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.card:hover::before {
+  opacity: 1;
+  animation: gradientShift 3s ease infinite;
 }
 
 .card:hover {
-  border-color: var(--vp-c-brand-1);
+  border-color: transparent;
   box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
   transform: translateY(-2px);
 }
@@ -291,6 +552,11 @@ const concepts = [
   background-color: rgba(139, 92, 246, 0.1);
   border-radius: 8px;
   margin-bottom: 20px;
+  transition: transform 200ms ease-out;
+}
+
+.card:hover .card-icon {
+  transform: scale(1.1);
 }
 
 .card-icon svg {
@@ -314,6 +580,7 @@ const concepts = [
   margin: 0;
 }
 
+/* ============ MANIFESTO ============ */
 .manifesto {
   background-color: var(--vp-c-bg-alt, #242424);
   border-top: 1px solid var(--vp-c-border, #2e2e2e);
@@ -346,8 +613,34 @@ const concepts = [
   max-width: 65ch;
   margin: 0 auto;
   text-align: center;
+  position: relative;
 }
 
+.manifesto-line::before {
+  content: '\201C';
+  position: absolute;
+  left: -40px;
+  top: -20px;
+  font-size: 80px;
+  font-family: Georgia, serif;
+  color: var(--vp-c-brand-1);
+  opacity: 0.15;
+  line-height: 1;
+}
+
+.manifesto-line::after {
+  content: '\201D';
+  position: absolute;
+  right: -40px;
+  bottom: -40px;
+  font-size: 80px;
+  font-family: Georgia, serif;
+  color: var(--vp-c-brand-1);
+  opacity: 0.15;
+  line-height: 1;
+}
+
+/* ============ FOOTER ============ */
 .strip {
   display: flex;
   align-items: center;
@@ -355,6 +648,19 @@ const concepts = [
   padding: 20px 32px;
   background-color: var(--vp-c-bg);
   border-top: 1px solid var(--vp-c-border, #2e2e2e);
+  position: relative;
+}
+
+.strip-glow {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand-1), transparent);
+  filter: blur(4px);
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .strip-license {
@@ -375,6 +681,7 @@ const concepts = [
   color: var(--vp-c-brand-1);
 }
 
+/* ============ ANIMATIONS ============ */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -386,6 +693,19 @@ const concepts = [
   }
 }
 
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ============ RESPONSIVE ============ */
 @media (max-width: 767px) {
   .hero {
     grid-template-columns: 1fr;
@@ -399,6 +719,14 @@ const concepts = [
 
   .hero-subtitle {
     font-size: 15px;
+  }
+
+  .hero-corner {
+    display: none;
+  }
+
+  .hero-accent {
+    display: none;
   }
 
   .concepts {
@@ -419,11 +747,32 @@ const concepts = [
     font-size: 18px;
   }
 
+  .manifesto-line::before {
+    left: -20px;
+    top: -10px;
+    font-size: 60px;
+  }
+
+  .manifesto-line::after {
+    right: -20px;
+    bottom: -30px;
+    font-size: 60px;
+  }
+
   .strip {
     padding: 16px;
     flex-direction: column;
     gap: 8px;
     text-align: center;
+  }
+
+  .section-divider {
+    padding: 0 16px;
+  }
+
+  .section-divider::before {
+    left: 16px;
+    right: 16px;
   }
 }
 
@@ -432,7 +781,8 @@ const concepts = [
   .hero-code,
   .card,
   .btn,
-  .strip-link {
+  .strip-link,
+  .hero-badge {
     animation: none;
     transition: none;
   }
@@ -443,6 +793,14 @@ const concepts = [
 
   .card:hover {
     transform: none;
+  }
+
+  .card:hover .card-icon {
+    transform: none;
+  }
+
+  .card:hover::before {
+    animation: none;
   }
 }
 </style>
