@@ -1,17 +1,17 @@
 -- Paste this into a Script in ServerScriptService and run.
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
-local StarterPlayer = game:GetService("StarterPlayer")
+const ReplicatedStorage = game:GetService("ReplicatedStorage")
+const ServerScriptService = game:GetService("ServerScriptService")
+const StarterPlayer = game:GetService("StarterPlayer")
 
-local Version = "1.1.0"
+const Version = "1.1.0"
 
-local bootstrapper_server_code = [[
-local LogService = game:GetService("LogService")
-local RunService = game:GetService("RunService")
+const bootstrapper_server_code = [[
+const LogService = game:GetService("LogService")
+const RunService = game:GetService("RunService")
 
-local controllersFolder = script.Parent.controllers
-local servicesFolder = script.Parent.services
+const controllersFolder = script.Parent.controllers
+const servicesFolder = script.Parent.services
 
 type Controller = {
 	start: (self: Controller) -> ()
@@ -275,6 +275,7 @@ local Parents = {
 			definitions = {},
 			events = {},
 			index = {},
+			registry = {},
 			packages = {},
 			utils = {},
 		}
