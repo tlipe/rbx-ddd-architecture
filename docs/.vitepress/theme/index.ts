@@ -3,9 +3,10 @@ import './custom.css'
 
 export default {
   extends: DefaultTheme,
-  setup() {
-    if (typeof document !== 'undefined') {
+  enhanceApp({ isBrowser }) {
+    if (isBrowser) {
       document.documentElement.classList.add('dark')
+      localStorage.setItem('vitepress-theme-appearance', 'dark')
     }
   },
 }
