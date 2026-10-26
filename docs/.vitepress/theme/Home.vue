@@ -43,33 +43,31 @@ const concepts = [
           <a class="btn btn-secondary" href="https://github.com/tlipe/rbx-ddd-architecture" rel="noopener">GitHub</a>
         </div>
       </div>
+    </section>
+
+    <div class="hero-code-showcase">
       <div class="hero-code">
         <div class="code-titlebar">
           <span class="code-dot"></span>
           <span class="code-dot"></span>
           <span class="code-dot"></span>
-          <span class="code-filename">Domain/PlayerService.luau</span>
+          <span class="code-filename">Studio Output</span>
         </div>
         <div class="code-body-wrapper">
-          <div class="code-gutter">
-            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-            <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
-          </div>
-          <pre class="code-body"><code><span class="code-comment">-- Domain/PlayerService.luau</span>
-<span class="code-keyword">local</span> PlayerService = {}
-
-<span class="code-keyword">function</span> <span class="code-fn">PlayerService.new</span>(): PlayerService
-  <span class="code-keyword">local</span> self = <span class="code-fn">setmetatable</span>({}, {
-    __index = PlayerService,
-  })
-  <span class="code-keyword">return</span> self
-<span class="code-keyword">end</span>
-
-<span class="code-keyword">return</span> PlayerService</code></pre>
+          <pre class="code-body"><code><span class="code-log-service">[SERVICE]</span> Loading DataStoreService...
+<span class="code-log-service">[SERVICE]</span> Loaded DataStoreService.
+<span class="code-log-service">[SERVICE]</span> Loading PlayerService...
+<span class="code-log-service">[SERVICE]</span> Loaded PlayerService.
+<span class="code-log-controller">[CONTROLLER]</span> Registered PlayerJoinController.
+<span class="code-log-controller">[CONTROLLER]</span> Registered InventoryController.
+<span class="code-log-controller">[CONTROLLER]</span> Start: PlayerJoinController.
+<span class="code-log-controller">[CONTROLLER]</span> Start: InventoryController.
+<span class="code-log-server">[SERVER]</span> Server fully loaded in <span class="code-log-success">0.04s</span>.
+<span class="code-log-client">[CLIENT]</span> Server loaded. Timestamp: <span class="code-log-success">1730000000</span>.</code></pre>
           <div class="code-fade"></div>
         </div>
       </div>
-    </section>
+    </div>
 
     <div class="section-divider"></div>
 
@@ -126,13 +124,13 @@ const concepts = [
 
 .hero {
   position: relative;
-  padding: 80px 32px 64px;
+  padding: 80px 32px 48px;
   max-width: 960px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
   overflow: hidden;
 }
 
@@ -228,6 +226,7 @@ const concepts = [
   position: relative;
   z-index: 1;
   animation: fadeIn 200ms ease-out both;
+  max-width: 640px;
 }
 
 .hero-title {
@@ -253,13 +252,14 @@ const concepts = [
   line-height: 1.6;
   color: var(--vp-c-text-2);
   max-width: 48ch;
-  margin: 0 0 32px;
+  margin: 0 auto 32px;
 }
 
 .hero-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .btn {
@@ -295,16 +295,6 @@ const concepts = [
 .btn-secondary:hover {
   background-color: rgba(139, 92, 246, 0.1);
   border-color: var(--vp-c-brand-3, #a78bfa);
-}
-
-.hero-code {
-  position: relative;
-  z-index: 1;
-  background-color: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border, #2e2e2e);
-  border-radius: 6px;
-  overflow: hidden;
-  animation: fadeIn 200ms ease-out 60ms both;
 }
 
 .code-titlebar {
@@ -387,6 +377,33 @@ const concepts = [
 .code-comment { color: var(--vp-c-text-2); font-style: italic; }
 .code-keyword { color: var(--vp-c-brand-3, #a78bfa); }
 .code-fn { color: var(--vp-c-brand-1); }
+
+.code-log-service { color: #60a5fa; font-weight: 600; }
+.code-log-controller { color: #a78bfa; font-weight: 600; }
+.code-log-server { color: #34d399; font-weight: 600; }
+.code-log-client { color: #fbbf24; font-weight: 600; }
+.code-log-success { color: #34d399; }
+
+.hero-code-showcase {
+  max-width: 800px;
+  margin: 48px auto;
+  padding: 0 32px;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.hero-code-showcase .hero-code {
+  box-shadow: 0 20px 60px rgba(139, 92, 246, 0.15);
+  border: 1px solid var(--vp-c-border, #2e2e2e);
+}
 
 .section-divider {
   max-width: 960px;
