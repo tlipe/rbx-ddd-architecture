@@ -3,17 +3,17 @@ const concepts = [
   {
     title: 'Server-Authoritative',
     body: 'All state lives on the server. Clients render; they never own truth.',
-    wide: true,
+    icon: 'server',
   },
   {
     title: 'Typed Contracts',
     body: 'Luau types define every module boundary. No untyped Remote traffic.',
-    wide: false,
+    icon: 'typed',
   },
   {
     title: 'Hot-Reload Ready',
     body: 'Registry wiring survives Studio reloads without manual teardown.',
-    wide: false,
+    icon: 'reload',
   },
 ]
 </script>
@@ -21,8 +21,11 @@ const concepts = [
 <template>
   <div class="home">
     <section class="hero">
-      <div class="hero-left">
-        <h1 class="hero-title">RBX DDD Architecture</h1>
+      <div class="hero-glow"></div>
+      <div class="hero-content">
+        <h1 class="hero-title">
+          RBX <span class="gradient-text">DDD</span> Architecture
+        </h1>
         <p class="hero-subtitle">
           A domain-driven foundation for Roblox Luau projects: clean layers,
           typed boundaries, zero ceremony.
@@ -32,13 +35,24 @@ const concepts = [
           <a class="btn btn-secondary" href="https://github.com/tlipe/rbx-ddd-architecture" rel="noopener">GitHub</a>
         </div>
       </div>
-      <div class="hero-right">
-        <img
-          src="https://pixabay.com/get/gc0af2e80ad114af77ca06ddab5eb2df75a6f4f4d21bde8224ca1fb5c8f04e63d3ddf5d4c0b8ab28e5327f2f90bc5cc8a4dbb5a64f344c4fe8311e0ae69d3a11c_1280.jpg"
-          alt="Abstract technology network visualization"
-          loading="lazy"
-          class="hero-image"
-        />
+      <div class="hero-code">
+        <div class="code-titlebar">
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-dot"></span>
+          <span class="code-filename">Domain/PlayerService.luau</span>
+        </div>
+        <pre class="code-body"><code><span class="code-comment">-- Domain/PlayerService.luau</span>
+<span class="code-keyword">local</span> PlayerService = {}
+
+<span class="code-keyword">function</span> <span class="code-fn">PlayerService.new</span>(): PlayerService
+  <span class="code-keyword">local</span> self = <span class="code-fn">setmetatable</span>({}, {
+    __index = PlayerService,
+  })
+  <span class="code-keyword">return</span> self
+<span class="code-keyword">end</span>
+
+<span class="code-keyword">return</span> PlayerService</code></pre>
       </div>
     </section>
 
@@ -46,39 +60,26 @@ const concepts = [
       <article
         v-for="concept in concepts"
         :key="concept.title"
-        class="cell"
-        :class="{ 'cell-wide': concept.wide }"
+        class="card"
       >
-        <div class="cell-icon">
-          <svg
-            v-if="concept.title === 'Server-Authoritative'"
-            width="16" height="16" viewBox="0 0 16 16" fill="none"
-            stroke="#3b82f6" stroke-width="1.5" aria-hidden="true"
-          >
-            <rect x="2" y="2" width="12" height="4" />
-            <rect x="2" y="10" width="12" height="4" />
-            <circle cx="5" cy="4" r="0.5" fill="#3b82f6" />
-            <circle cx="5" cy="12" r="0.5" fill="#3b82f6" />
+        <div class="card-icon">
+          <svg v-if="concept.icon === 'server'" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="6" width="24" height="8" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+            <rect x="4" y="18" width="24" height="8" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+            <circle cx="8" cy="10" r="1.5" fill="var(--vp-c-brand-1)"/>
+            <circle cx="8" cy="22" r="1.5" fill="var(--vp-c-brand-1)"/>
           </svg>
-          <svg
-            v-else-if="concept.title === 'Typed Contracts'"
-            width="16" height="16" viewBox="0 0 16 16" fill="none"
-            stroke="#3b82f6" stroke-width="1.5" aria-hidden="true"
-          >
-            <path d="M3 1.5h7l3 3v10H3z" />
-            <path d="M10 1.5v3h3" />
-            <path d="M5.5 8h5M5.5 10.5h5" />
+          <svg v-else-if="concept.icon === 'typed'" width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M6 4h14l6 6v18H6z" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+            <path d="M20 4v6h6" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
+            <path d="M10 16h10M10 20h10M10 24h7" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none"/>
           </svg>
-          <svg
-            v-else
-            width="16" height="16" viewBox="0 0 16 16" fill="none"
-            stroke="#3b82f6" stroke-width="1.5" aria-hidden="true"
-          >
-            <path d="M9 1.5 3.5 9H7l-1 5.5L13.5 7H10z" />
+          <svg v-else width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M18 3L7 18h7l-2 11L23 14h-7z" stroke="var(--vp-c-brand-1)" stroke-width="2" fill="none" stroke-linejoin="round"/>
           </svg>
         </div>
-        <h2 class="cell-title">{{ concept.title }}</h2>
-        <p class="cell-body">{{ concept.body }}</p>
+        <h2 class="card-title">{{ concept.title }}</h2>
+        <p class="card-body">{{ concept.body }}</p>
       </article>
     </section>
 
@@ -101,45 +102,69 @@ const concepts = [
 
 <style scoped>
 .home {
-  background-color: #0a0e1a;
+  background-color: var(--vp-c-bg);
+  padding-bottom: 0;
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 60fr 40fr;
-  gap: 24px;
-  align-items: center;
-  padding: 48px 32px;
-  max-width: 1280px;
+  position: relative;
+  padding: 80px 32px 64px;
+  max-width: 960px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  overflow: hidden;
 }
 
-.hero-left {
+.hero-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139, 92, 246, 0.08), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
   animation: fadeIn 200ms ease-out both;
 }
 
 .hero-title {
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: #e2e8f0;
-  margin: 0 0 12px;
+  color: var(--vp-c-text-1);
+  margin: 0 0 16px;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-3, #a78bfa));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-subtitle {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.5;
-  color: #94a3b8;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
   max-width: 48ch;
-  margin: 0 0 24px;
+  margin: 0 0 32px;
 }
 
 .hero-actions {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
@@ -149,104 +174,175 @@ const concepts = [
   font-size: 12px;
   font-weight: 500;
   line-height: 1;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 9999px;
   text-decoration: none;
-  transition: box-shadow 200ms ease-out, background-color 200ms ease-out;
+  transition: all 200ms ease-out;
+  cursor: pointer;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  background: linear-gradient(135deg, var(--vp-c-brand-2, #7c3aed), var(--vp-c-brand-1));
   color: #ffffff;
   border: none;
 }
 
 .btn-primary:hover {
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-secondary {
   background: transparent;
-  color: #60a5fa;
-  border: 1px solid #3b82f6;
+  color: var(--vp-c-brand-3, #a78bfa);
+  border: 1px solid var(--vp-c-brand-1);
 }
 
 .btn-secondary:hover {
-  background-color: rgba(59, 130, 246, 0.1);
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: var(--vp-c-brand-3, #a78bfa);
 }
 
-.hero-right {
-  background-color: #0f1629;
-  border: 1px solid #1e293b;
-  border-radius: 0;
+.hero-code {
+  position: relative;
+  z-index: 1;
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border, #2e2e2e);
+  border-radius: 6px;
   overflow: hidden;
   animation: fadeIn 200ms ease-out 60ms both;
 }
 
-.hero-image {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  filter: brightness(0.7) contrast(1.2) saturate(0.8);
+.code-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background-color: var(--vp-c-bg-alt, #242424);
+  border-bottom: 1px solid var(--vp-c-border, #2e2e2e);
 }
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--vp-c-border, #2e2e2e);
+}
+
+.code-dot:nth-child(1) { background-color: #ff5f56; }
+.code-dot:nth-child(2) { background-color: #ffbd2e; }
+.code-dot:nth-child(3) { background-color: #27c93f; }
+
+.code-filename {
+  margin-left: 8px;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  color: var(--vp-c-text-2);
+  letter-spacing: 0.02em;
+}
+
+.code-body {
+  margin: 0;
+  padding: 16px 18px;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--vp-c-text-1);
+  overflow-x: auto;
+}
+
+.code-body code {
+  font-family: inherit;
+}
+
+.code-comment { color: var(--vp-c-text-2); font-style: italic; }
+.code-keyword { color: var(--vp-c-brand-3, #a78bfa); }
+.code-fn { color: var(--vp-c-brand-1); }
 
 .concepts {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 12px;
-  padding: 0 32px 48px;
-  max-width: 1280px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 0 32px 64px;
+  max-width: 960px;
   margin: 0 auto;
 }
 
-.cell {
-  background-color: #0f1629;
-  border: 1px solid #1e293b;
-  border-radius: 0;
-  padding: 24px;
-  transition: box-shadow 200ms ease-out;
+.card {
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border, #2e2e2e);
+  padding: 32px;
+  transition: all 200ms ease-out;
+  border-radius: 4px;
 }
 
-.cell:hover {
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+.card:hover {
+  border-color: var(--vp-c-brand-1);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
+  transform: translateY(-2px);
 }
 
-.cell-icon {
-  margin-bottom: 12px;
+.card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(139, 92, 246, 0.1);
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-.cell-title {
-  font-size: 14px;
+.card-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.card-title {
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.5;
-  color: #e2e8f0;
-  margin: 0 0 4px;
+  color: var(--vp-c-text-1);
+  margin: 0 0 8px;
 }
 
-.cell-body {
+.card-body {
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.5;
-  color: #94a3b8;
+  line-height: 1.6;
+  color: var(--vp-c-text-2);
   margin: 0;
-  max-width: 48ch;
 }
 
 .manifesto {
-  background-color: #111827;
-  border-top: 1px solid #1e293b;
-  border-bottom: 1px solid #1e293b;
-  padding: 48px 32px;
+  background-color: var(--vp-c-bg-alt, #242424);
+  border-top: 1px solid var(--vp-c-border, #2e2e2e);
+  border-bottom: 1px solid var(--vp-c-border, #2e2e2e);
+  padding: 64px 32px;
+  position: relative;
 }
+
+.manifesto::before,
+.manifesto::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--vp-c-brand-1), transparent);
+  opacity: 0.35;
+}
+
+.manifesto::before { top: -1px; }
+.manifesto::after { bottom: -1px; }
 
 .manifesto-line {
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 500;
   font-style: italic;
   line-height: 1.5;
-  color: #e2e8f0;
+  color: var(--vp-c-text-1);
   max-width: 65ch;
   margin: 0 auto;
   text-align: center;
@@ -256,34 +352,33 @@ const concepts = [
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 48px;
-  padding: 0 32px;
-  background-color: #0a0e1a;
-  border-top: 1px solid #1e293b;
+  padding: 20px 32px;
+  background-color: var(--vp-c-bg);
+  border-top: 1px solid var(--vp-c-border, #2e2e2e);
 }
 
 .strip-license {
   font-size: 12px;
   font-weight: 500;
-  color: #94a3b8;
+  color: var(--vp-c-text-2);
 }
 
 .strip-link {
   font-size: 12px;
   font-weight: 500;
-  color: #60a5fa;
+  color: var(--vp-c-brand-3, #a78bfa);
   text-decoration: none;
   transition: color 200ms ease-out;
 }
 
 .strip-link:hover {
-  color: #3b82f6;
+  color: var(--vp-c-brand-1);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -291,30 +386,63 @@ const concepts = [
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-left,
-  .hero-right {
-    animation: none;
-  }
-}
-
 @media (max-width: 767px) {
   .hero {
     grid-template-columns: 1fr;
-    padding: 32px 16px;
+    padding: 48px 16px;
+    gap: 32px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
   }
 
   .concepts {
     grid-template-columns: 1fr;
-    padding: 0 16px 32px;
+    padding: 0 16px 48px;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 24px;
   }
 
   .manifesto {
-    padding: 32px 16px;
+    padding: 48px 16px;
+  }
+
+  .manifesto-line {
+    font-size: 18px;
   }
 
   .strip {
-    padding: 0 16px;
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-content,
+  .hero-code,
+  .card,
+  .btn,
+  .strip-link {
+    animation: none;
+    transition: none;
+  }
+
+  .btn-primary:hover {
+    transform: none;
+  }
+
+  .card:hover {
+    transform: none;
   }
 }
 </style>
