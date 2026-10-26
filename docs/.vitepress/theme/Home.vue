@@ -137,6 +137,7 @@ const concepts = [
         href="https://github.com/tlipe/rbx-ddd-architecture"
         rel="noopener"
       >github.com/tlipe/rbx-ddd-architecture</a>
+      <span class="strip-credit">Made by <strong>O_Kolt</strong> <span class="brazil-flag">🇧🇷</span></span>
     </footer>
   </div>
 </template>
@@ -157,18 +158,6 @@ const concepts = [
   align-items: center;
   text-align: center;
   overflow: hidden;
-}
-
-.hero-glow {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(139, 92, 246, 0.08), transparent);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .hero-grid {
@@ -713,6 +702,28 @@ const concepts = [
 
 .strip-link:hover {
   color: var(--vp-c-brand-1);
+}
+
+.strip-credit {
+  font-size: 11px;
+  color: var(--vp-c-text-2, #8e8e93);
+  margin-left: auto;
+  opacity: 0.7;
+  transition: opacity 200ms ease-out;
+}
+
+.strip-credit:hover {
+  opacity: 1;
+}
+
+.strip-credit strong {
+  color: var(--vp-c-brand-3, #a78bfa);
+  font-weight: 600;
+}
+
+.brazil-flag {
+  font-size: 13px;
+  margin-left: 2px;
 }
 
 @keyframes fadeIn {
