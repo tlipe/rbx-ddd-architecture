@@ -9,6 +9,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/rbx-ddd-architecture/favicon.svg' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' }]
