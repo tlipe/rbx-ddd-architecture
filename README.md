@@ -54,38 +54,79 @@ client/bootstrapper (LocalScript)
 
 ```
 workspace/
-├── Client/                    ← local rendering folder (per-player visuals)
-└── Server/                    ← replication/rendering folder (all players)
+├── Client/                    ← Folder holding all client-side rendered instances.
+│                                 Physical objects, visual effects, anything visible
+│                                 only to the local player.
+└── Server/                    ← Folder holding all server-authoritative instances.
+                                  Visible to every player. Replicated physical objects,
+                                  world effects, shared visuals.
 
 ReplicatedStorage/
-└── shared/                    ← shared code
-    ├── definitions/           ← data contracts/schemas (types, enums, constants)
-    ├── events/                ← RemoteEvent/RemoteFunction wrappers
-    ├── index/                 ← pure data tables (return { ... }, no methods)
-    ├── registry/              ← data modules returning tables directly
-    ├── packages/              ← external libs (Warp, KoltStore, Spring, etc.)
-    └── utils/                 ← pure functions (+ *Helper modules for queries)
+└── shared/                    ← Code shared by both sides.
+    ├── definitions/           ← Schemas, contracts, types, enums, constants.
+    │                             Dedicated to data shape agreements used across
+    │                             server and client.
+    ├── events/                ← All server↔client connections live here.
+    │                             RemoteEvents, RemoteFunctions, network library
+    │                             wrappers. Each connection gets its own ModuleScript
+    │                             named after the event (e.g. purchaseItem.lua).
+    │                             Inside: code that fires/listens on that connection.
+    │                             Pattern:
+    │                               -- code working with this event
+    │                               return 0
+    ├── index/                 ← Pure data tables. Direct return { ... }.
+    │                             No methods attached. Query/filter/lookup helpers
+    │                             belong in shared/utils/*Helper.
+    ├── registry/              ← Registrar / voter environment. Modules that record
+    │                             or annotate state, votes, registrations.
+    │                             Single expression return { key = value, ... }.
+    │                             Never assign to local first. Never table.freeze().
+    ├── packages/              ← ALL external libraries and ModuleScripts described
+    │                             as libraries. Usually added by the user
+    │                             (Warp, KoltStore, Spring, etc.). Nothing else
+    │                             lives here.
+    └── utils/                 ← Helper/utility ModuleScripts shared by BOTH sides.
+                                  Pure functions reusable from server and client.
 
 ServerScriptService/
-└── server/                    ← authoritative logic
-    ├── bootstrapper           ← Script (entry point)
-    ├── classes/               ← stateful domain objects
-    ├── controllers/           ← orchestrate systems; function controllerName:start()
-    ├── services/              ← long-lived; initialized once; return 0; no start()
-    └── utils/                 ← server-only helpers
+└── server/                    ← Authoritative logic.
+    ├── bootstrapper           ← Script (entry point).
+    ├── classes/               ← Stateful domain objects. Classes/enums dedicated
+    │                             to specific game objects.
+    ├── controllers/           ← Orchestrate systems. Lifecycle hook:
+    │                             function controllerName:start().
+    ├── services/              ← Long-lived infrastructure. Initialized once.
+    │                             return 0. No start() method.
+    └── utils/                 ← Helpers dedicated to the SERVER side and its
+                                  neighbor folders (classes, controllers, services).
 
 StarterPlayer/StarterPlayerScripts/
-└── client/                    ← presentation and prediction
-    ├── bootstrapper           ← LocalScript (entry point)
-    ├── classes/               ← remote entity clients
-    ├── entities/              ← client game object representations
-    ├── controllers/           ← input handlers, camera, animations; start()
-    ├── services/              ← AudioService, TweenService wrappers; return 0
+└── client/                    ← Presentation and prediction.
+    ├── bootstrapper           ← LocalScript (entry point).
+    ├── classes/               ← ModuleScripts dedicated to classes or enums of
+    │                             specific objects. Same purpose as server/classes
+    │                             but scoped to the client.
+    ├── entities/              ← ModuleScripts acting 100% on in-game entities
+    │                             renderable on the client. Requires a server↔client
+    │                             connection strategy. Dedicated to optimization
+    │                             and rendering of entities (including players).
+    ├── controllers/           ← Input handlers, camera, animations. Uses start().
+    ├── services/              ← AudioService/TweenService wrappers. return 0.
     ├── ui/
-    │   ├── frames/            ← individual ScreenGui components
-    │   ├── helpers/           ← UI interaction helpers
-    │   └── hud                ← ModuleScript (UI bootstrapper; return 0)
-    └── utils/                 ← client-only helpers
+    │   ├── frames/            ← One ModuleScript per UI surface. The module name
+    │   │                         IS the UI it programs (e.g. shopCoin.lua,
+    │   │                         shopSwords.lua, inventoryFrame.lua).
+    │   │                         Inside: normal code building that interface.
+    │   │                         Pattern:
+    │   │                           -- code programming the determined interface
+    │   │                           return 0
+    │   ├── helpers/           ← Quick reusable helpers scoped to the frames folder.
+    │   │                         Shared utilities consumed by sibling frame modules.
+    │   └── hud                ← ModuleScript orchestrating frames. Runs each
+    │                             frame via task.spawn. Returns 0.
+    └── utils/                 ← Helpers dedicated to the CLIENT side and its
+                                  neighbor folders (classes, entities, controllers,
+                                  services).
 ```
 
 ---
@@ -119,7 +160,7 @@ loadstring(source)()
 
 ## Code rules
 
-These are strict conventions baked into the architecture:
+Strict conventions baked into the architecture:
 
 | Rule | Detail |
 |---|---|
@@ -136,12 +177,11 @@ These are strict conventions baked into the architecture:
 
 ### Service
 
-A service is a long-lived infrastructure module. It initializes once when required and returns `0`. No `start()` method.
+Long-lived infrastructure. Initializes once when required. Returns `0` if side-effect only, OR a table with public methods. No `start()`.
 
 ```lua
 -- server/services/DataStoreService.lua
 const DataStoreService = game:GetService("DataStoreService")
-
 const store = DataStoreService:GetDataStore("PlayerData_v1")
 
 local function loadData(player: Player): {[string]: any}?
@@ -170,7 +210,7 @@ return {
 
 ### Controller
 
-A controller orchestrates a system using its lifecycle hook. Must return `{ start = function(self) }`. The bootstrapper calls `start()` after all services load.
+Orchestrates a system using its lifecycle hook. Must return `{ start = function(self) }`. Bootstrapper calls `start()` after all services load.
 
 ```lua
 -- server/controllers/PlayerJoinController.lua
@@ -189,7 +229,7 @@ end
 local function onPlayerRemoving(player: Player)
 	DataService.Save(player, {
 		coins = player:GetAttribute("Coins"),
-		level = player.GetAttribute("Level"),
+		level = player:GetAttribute("Level"),
 	})
 end
 
@@ -199,6 +239,24 @@ return {
 		Players.PlayerRemoving:Connect(onPlayerRemoving)
 	end,
 }
+```
+
+### Event (shared/events)
+
+Each server↔client connection is one ModuleScript named after the event. Works alongside whatever network library lives in `shared/packages`.
+
+```lua
+-- shared/events/purchaseItem.lua
+const Packages = script.Parent.Parent.packages
+const NetworkLib = require(Packages.NetworkLib)
+
+NetworkLib.define("purchaseItem", {
+	fireServer = function(itemId: string, quantity: number)
+		-- code working with this event
+	end,
+})
+
+return 0
 ```
 
 ### Registry / Index module
@@ -238,21 +296,22 @@ return {
 }
 ```
 
-### HUD Frame
+### HUD Frame (client/ui/frames)
 
-Each frame in `client/ui/frames/` is a ModuleScript that returns a function. The `hud` runner calls them all in parallel via `task.spawn`.
+One ModuleScript per UI surface. The module name IS the UI it programs. Inside: normal code building that interface. Runner spawns it in parallel.
 
 ```lua
--- client/ui/frames/CoinCounter.lua
+-- client/ui/frames/shopCoin.lua
 const CoinsLabel = script.Parent:WaitForChild("CoinsLabel"):: TextLabel
 const LocalPlayer = game.Players.LocalPlayer
 
-return function()
-	LocalPlayer:GetAttributeChangedSignal("Coins"):Connect(function()
-		local coins = LocalPlayer:GetAttribute("Coins")
-		CoinsLabel.Text = `${coins} coins`
-	end)
-end
+CoinsLabel.Text = `${LocalPlayer:GetAttribute("Coins")} coins`
+
+LocalPlayer:GetAttributeChangedSignal("Coins"):Connect(function()
+	CoinsLabel.Text = `${LocalPlayer:GetAttribute("Coins")} coins`
+end)
+
+return 0
 ```
 
 ---
@@ -263,9 +322,11 @@ end
 |---|---|---|
 | `*/services/*.lua` | ModuleScript | Long-lived infrastructure. Initializes once. Returns table with public methods OR `return 0` if side-effect only. No `start()`. Require failure aborts that service but continues others. |
 | `*/controllers/*.lua` | ModuleScript | Orchestration layer. Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. Called after all services load. |
+| `shared/events/*.lua` | ModuleScript | One file per server↔client connection. Named after the event. Wraps the network library call. Ends with `return 0`. |
 | `shared/index/*.lua` | ModuleScript | Pure data. Direct `return { ... }`. No intermediate var. No freeze. Query/filter/lookup goes in `shared/utils/*Helper`. |
-| `shared/registry/*.lua` | ModuleScript | Single expression `return { key = value, ... }`. Never assign to local first. Never wrap in `table.freeze()`. |
-| `client/ui/frames/*.lua` | ModuleScript | Returns `function()`. Executed in `task.spawn` by the HUD runner. |
+| `shared/registry/*.lua` | ModuleScript | Registrar/voter environment. Single expression `return { key = value, ... }`. Never assign to local first. Never wrap in `table.freeze()`. |
+| `shared/packages/*` | Folder | External libraries ONLY. User-added. Nothing project-specific belongs here. |
+| `client/ui/frames/*.lua` | ModuleScript | One file per UI surface. Filename identifies the UI. Contains normal interface-building code. Ends with `return 0`. Spawned by HUD runner. |
 | `client/ui/hud` | ModuleScript | Internal orchestrator. Do not modify without understanding the frame loop. |
 
 ---
@@ -282,7 +343,7 @@ All logs use structured prefixes:
 [SERVER] Server fully loaded in 0.04s.
 [CLIENT] Waiting for server...
 [CLIENT] Server loaded. Timestamp: 1730000000
-[HUD] Bootstrap runtime error: CoinCounter -> ...
+[HUD] Bootstrap runtime error: shopCoin -> ...
 ```
 
 If `ServerLoaded` stays `false`, open the Output and look for `[SERVICE] Failed` or `[CONTROLLER]` with an error. Fix the problematic module; the bootstrapper won't advance with failures.
