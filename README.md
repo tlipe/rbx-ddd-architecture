@@ -6,7 +6,7 @@
 
 One-click install. Automatic server/client bootstrapper. Ready-made conventions for games of any scale.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MPL-2.0](https://img.shields.io/badge/License-MPL--2.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](#)
 [![Roblox](https://img.shields.io/badge/Roblox-Luau-red.svg)](https://www.roblox.com)
 
@@ -361,4 +361,4 @@ If `ServerLoaded` stays `false`, open the Output and look for `[SERVICE] Failed`
 
 ## License
 
-MIT. Use freely in commercial and personal projects.
+Mozilla Public License 2.0. Free for commercial and personal use. Modifications to covered files must be shared under the same license.
