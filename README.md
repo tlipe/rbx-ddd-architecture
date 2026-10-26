@@ -2,9 +2,9 @@
 
 # RBX DDD Architecture
 
-**Domain-Driven Design para Roblox Studio.**
+**Domain-Driven Design for Roblox Studio.**
 
-Instalação em um clique. Bootstrapper server/client automático. Convenções prontas para jogos de qualquer escala.
+One-click install. Automatic server/client bootstrapper. Ready-made conventions for games of any scale.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](#)
@@ -14,91 +14,91 @@ Instalação em um clique. Bootstrapper server/client automático. Convenções 
 
 ---
 
-## Por que usar
+## Why use it
 
-| Benefício | Detalhe |
+| Benefit | Detail |
 |---|---|
-| **Setup instantâneo** | Um script monta toda a árvore de pastas, bootstrappers e contratos. Zero configuração manual. |
-| **Convenção sobre configuração** | Serviços carregam sozinhos. Controllers registram `start()`. Nada de wiring manual entre módulos. |
-| **Server-client sincronizado** | Client espera `ServerLoaded` antes de inicializar. Sem race conditions no startup. |
-| **Escala sem refatorar** | Começa com 3 serviços, cresce para 30 sem mudar a estrutura. Adiciona módulo na pasta certa, está pronto. |
-| **Observabilidade nativa** | LogService integrado. Cada carga/falha aparece no Output do Studio com contexto claro. |
-| **Contrato explícito** | Interfaces tipadas (`Controller`, service return). Erros de contrato falham no load, não em runtime silencioso. |
+| **Instant setup** | One script builds the entire folder tree, bootstrappers, and contracts. Zero manual configuration. |
+| **Convention over configuration** | Services load themselves. Controllers register `start()`. No manual wiring between modules. |
+| **Synchronized server-client** | Client waits for `ServerLoaded` before initializing. No race conditions at startup. |
+| **Scale without refactoring** | Start with 3 services, grow to 30 without changing the structure. Add a module in the right folder, it's ready. |
+| **Native observability** | LogService integrated. Every load/failure appears in the Studio Output with clear context. |
+| **Explicit contract** | Typed interfaces (`Controller`, service return). Contract errors fail at load time, not silent runtime. |
 
 ---
 
-## Como funciona
+## How it works
 
-### Fluxo de inicialização
+### Initialization flow
 
 ```
 Studio Play
     │
     ▼
 server/bootstrapper (Script)
-    ├── carrega services/*.lua ──► require + contagem
-    ├── carrega controllers/*.lua ──► require + valida start()
-    ├── executa controller:start() em ordem
+    ├── loads services/*.lua ──► require + count
+    ├── loads controllers/*.lua ──► require + validates start()
+    ├── executes controller:start() in order
     └── workspace.ServerLoaded = true
             │
             ▼
 client/bootstrapper (LocalScript)
-    ├── aguarda ServerLoaded (GetAttributeChangedSignal)
-    ├── carrega services/*.lua
-    ├── carrega controllers/*.lua
-    ├── carrega ui/hud
+    ├── awaits ServerLoaded (GetAttributeChangedSignal)
+    ├── loads services/*.lua
+    ├── loads controllers/*.lua
+    ├── loads ui/hud
     └── workspace.ClientLoaded = true
 ```
 
-### Árvore gerada
+### Generated tree
 
 ```
 ReplicatedStorage/
-└── shared/                    ← código compartilhado
-    ├── definitions/           ← tipos, enums, constantes
+└── shared/                    ← shared code
+    ├── definitions/           ← types, enums, constants
     ├── events/                ← RemoteEvent/RemoteFunction wrappers
     ├── index/                 ← barrel exports
-    ├── packages/              ← libs externas
-    └── utils/                 ← helpers puros
+    ├── packages/              ← external libs
+    └── utils/                 ← pure helpers
 
 ServerScriptService/
-└── server/                    ← lógica autoritativa
+└── server/                    ← authoritative logic
     ├── bootstrapper           ← Script (entry point)
-    ├── classes/               ← modelos de domínio (DDD entities/value objects)
-    ├── controllers/           ← orquestração de casos de uso
-    ├── services/              ← infraestrutura (DataStore, HTTP, messaging)
-    └── utils/                 ← helpers server-only
+    ├── classes/               ← domain models (DDD entities/value objects)
+    ├── controllers/           ← use case orchestration
+    ├── services/              ← infrastructure (DataStore, HTTP, messaging)
+    └── utils/                 ← server-only helpers
 
 StarterPlayer/StarterPlayerScripts/
-└── client/                    ← apresentação e predição
+└── client/                    ← presentation and prediction
     ├── bootstrapper           ← LocalScript (entry point)
-    ├── classes/               ← clientes de entidades remotas
-    ├── entities/              ← estados locais do jogador/mundo
-    ├── controllers/           ← input handlers, câmera, animações
+    ├── classes/               ← remote entity clients
+    ├── entities/              ← local player/world states
+    ├── controllers/           ← input handlers, camera, animations
     ├── services/              ← AudioService, TweenService wrappers
     ├── ui/
-    │   ├── frames/            ← componentes ScreenGui individuais
-    │   ├── helpers/           ← utilitários de UI (layout, theme)
-    │   └── hud                ← ModuleScript (orquestra frames)
-    └── utils/                 ← helpers client-only
+    │   ├── frames/            ← individual ScreenGui components
+    │   ├── helpers/           ← UI utilities (layout, theme)
+    │   └── hud                ← ModuleScript (orchestrates frames)
+    └── utils/                 ← client-only helpers
 ```
 
 ---
 
-## Instalação
+## Installation
 
 <div align="center">
 
-### Opção A — Copiar e colar
+### Option A — Copy and paste
 
-Abra [`install.lua`](install.lua), cole num Script novo em ServerScriptService, rode. Pronto.
+Open [`install.lua`](install.lua), paste into a new Script in ServerScriptService, run. Done.
 
 </div>
 
-### Opção B — HttpService (download remoto)
+### Option B — HttpService (remote download)
 
 1. Game Settings → Security → **Allow HTTP Requests**: ON
-2. Crie um Script em ServerScriptService:
+2. Create a Script in ServerScriptService:
 
 ```lua
 local HttpService = game:GetService("HttpService")
@@ -108,15 +108,15 @@ if not ok then error(source) end
 loadstring(source)()
 ```
 
-3. Rode. O script baixa a versão mais recente direto do GitHub.
+3. Run. The script downloads the latest version straight from GitHub.
 
 ---
 
-## Escrevendo seu primeiro módulo
+## Writing your first module
 
 ### Service
 
-Um service é um ModuleScript que retorna uma tabela com métodos. Não precisa chamar nada especial — o bootstrapper faz `require` automaticamente.
+A service is a ModuleScript that returns a table with methods. No need to call anything special — the bootstrapper does `require` automatically.
 
 ```lua
 -- server/services/DataStoreService.lua
@@ -147,7 +147,7 @@ return {
 
 ### Controller
 
-Um controller deve retornar `{ start = function(self) }`. O bootstrapper chama `start()` após todos os services carregarem.
+A controller must return `{ start = function(self) }`. The bootstrapper calls `start()` after all services load.
 
 ```lua
 -- server/controllers/PlayerJoinController.lua
@@ -177,7 +177,7 @@ return {
 
 ### HUD Frame
 
-Cada frame em `client/ui/frames/` é um ModuleScript que retorna uma função. O `hud` runner chama todas em paralelo via `task.spawn`.
+Each frame in `client/ui/frames/` is a ModuleScript that returns a function. The `hud` runner calls them all in parallel via `task.spawn`.
 
 ```lua
 -- client/ui/frames/CoinCounter.lua
@@ -197,20 +197,20 @@ end
 
 ---
 
-## Contratos
+## Contracts
 
-| Caminho | Tipo | Contrato |
+| Path | Type | Contract |
 |---|---|---|
-| `*/services/*.lua` | ModuleScript | Retorna `table`. Qualquer método público. Falha no require aborta aquele service mas continua os outros. |
-| `*/controllers/*.lua` | ModuleScript | Retorna `{ start: (self) -> () }`. Bootstrapper valida tipo e presença de `start`. |
-| `client/ui/frames/*.lua` | ModuleScript | Retorna `function()`. Executado em `task.spawn` pelo HUD runner. |
-| `client/ui/hud` | ModuleScript | Orquestrador interno. Não modificar sem entender o loop de frames. |
+| `*/services/*.lua` | ModuleScript | Returns `table`. Any public method. Require failure aborts that service but continues others. |
+| `*/controllers/*.lua` | ModuleScript | Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. |
+| `client/ui/frames/*.lua` | ModuleScript | Returns `function()`. Executed in `task.spawn` by the HUD runner. |
+| `client/ui/hud` | ModuleScript | Internal orchestrator. Do not modify without understanding the frame loop. |
 
 ---
 
 ## Debugging
 
-Todos os logs usam prefixos estruturados:
+All logs use structured prefixes:
 
 ```
 [SERVICE] Loading DataStoreService...
@@ -223,19 +223,19 @@ Todos os logs usam prefixos estruturados:
 [HUD] Bootstrap runtime error: CoinCounter -> ...
 ```
 
-Se `ServerLoaded` ficar `false`, abra o Output e procure por `[SERVICE] Failed` ou `[CONTROLLER]` com erro. Corrija o módulo problemático; o bootstrapper não avança com falhas.
+If `ServerLoaded` stays `false`, open the Output and look for `[SERVICE] Failed` or `[CONTROLLER]` with an error. Fix the problematic module; the bootstrapper won't advance with failures.
 
 ---
 
-## Versionamento
+## Versioning
 
-| Versão | Mudanças |
+| Version | Changes |
 |---|---|
-| 1.1.0 | Separação server/client bootstrapper, HUD frame runner, validação de contrato |
-| 1.0.0 | Estrutura inicial, tree builder, log_stdio |
+| 1.1.0 | Server/client bootstrapper separation, HUD frame runner, contract validation |
+| 1.0.0 | Initial structure, tree builder, log_stdio |
 
 ---
 
-## Licença
+## License
 
-MIT. Use livremente em projetos comerciais e pessoais.
+MIT. Use freely in commercial and personal projects.
