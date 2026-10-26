@@ -37,9 +37,6 @@ jobs:
         working-directory: docs
         run: npm run build
 
-      - name: Copy .nojekyll to dist
-        run: cp docs/.nojekyll docs/.vitepress/dist/.nojekyll
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
