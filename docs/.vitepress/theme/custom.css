@@ -1,125 +1,323 @@
+/* ============================================
+   VitePress Custom Theme — Dark Graphite + Violet
+   All variable definitions use !important to
+   override VitePress internal defaults.
+   ============================================ */
+
+/* ---------- Light-mode variable fallbacks ---------- */
 :root {
-  --vp-c-brand-1: #7c3aed;
-  --vp-c-brand-2: #6d28d9;
-  --vp-c-brand-3: #8b5cf6;
-  --vp-c-warning-1: #d97706;
-  --vp-c-warning-2: #b45309;
-  --vp-c-warning-3: #f59e0b;
+  --vp-c-brand-1: #7c3aed !important;
+  --vp-c-brand-2: #6d28d9 !important;
+  --vp-c-brand-3: #8b5cf6 !important;
+  --vp-c-warning-1: #d97706 !important;
+  --vp-c-warning-2: #b45309 !important;
+  --vp-c-warning-3: #f59e0b !important;
+
+  --vp-c-bg: #1a1a1a !important;
+  --vp-c-bg-alt: #242424 !important;
+  --vp-c-bg-elv: #2a2a2a !important;
+  --vp-c-bg-soft: #1e1e1e !important;
+  --vp-c-text-1: #e5e5e5 !important;
+  --vp-c-text-2: #a3a3a3 !important;
+  --vp-c-border: #2e2e2e !important;
+  --vp-c-divider: #2e2e2e !important;
+  --vp-c-gutter: #1a1a1a !important;
+
+  --vp-home-hero-name-color: transparent !important;
+  --vp-home-hero-name-background: linear-gradient(135deg, #8b5cf6, #6d28d9) !important;
+  --vp-home-hero-image-background-image: none !important;
+  --vp-home-hero-image-filter: none !important;
 }
 
+/* ---------- Dark mode variables (primary theme) ---------- */
 .dark {
-  --vp-c-bg: #1a1a1a;
-  --vp-c-bg-alt: #242424;
-  --vp-c-bg-elv: #2a2a2a;
-  --vp-c-bg-soft: #1e1e1e;
-  --vp-c-text-1: #e5e5e5;
-  --vp-c-text-2: #a3a3a3;
-  --vp-c-border: #2e2e2e;
-  --vp-c-divider: #2e2e2e;
-  --vp-c-gutter: #1a1a1a;
-  --vp-c-brand-1: #8b5cf6;
-  --vp-c-brand-2: #7c3aed;
-  --vp-c-brand-3: #a78bfa;
-  --vp-c-warning-1: #f59e0b;
-  --vp-c-warning-2: #d97706;
-  --vp-c-warning-3: #fbbf24;
+  --vp-c-bg: #1a1a1a !important;
+  --vp-c-bg-alt: #242424 !important;
+  --vp-c-bg-elv: #2a2a2a !important;
+  --vp-c-bg-soft: #1e1e1e !important;
+  --vp-c-bg-elv-mute: #222222 !important;
+  --vp-c-bg-soft-mute: #1c1c1c !important;
+
+  --vp-c-text-1: #e5e5e5 !important;
+  --vp-c-text-2: #a3a3a3 !important;
+  --vp-c-text-3: #737373 !important;
+
+  --vp-c-border: #2e2e2e !important;
+  --vp-c-divider: #2e2e2e !important;
+  --vp-c-gutter: #1a1a1a !important;
+
+  --vp-c-brand-1: #8b5cf6 !important;
+  --vp-c-brand-2: #7c3aed !important;
+  --vp-c-brand-3: #a78bfa !important;
+  --vp-c-warning-1: #f59e0b !important;
+  --vp-c-warning-2: #d97706 !important;
+  --vp-c-warning-3: #fbbf24 !important;
+
+  --vp-c-mute: #242424 !important;
+  --vp-c-mute-lighter: #2e2e2e !important;
+  --vp-c-mute-darker: #1e1e1e !important;
+
+  --vp-home-hero-name-color: transparent !important;
+  --vp-home-hero-name-background: linear-gradient(135deg, #a78bfa, #8b5cf6, #7c3aed) !important;
+  --vp-home-hero-image-background-image: none !important;
+  --vp-home-hero-image-filter: none !important;
 }
 
-* {
+/* ---------- Universal border-radius reset ---------- */
+*,
+*::before,
+*::after {
   border-radius: 0 !important;
 }
 
+/* ---------- Base typography ---------- */
+html,
 body {
-  font-size: 15px;
-  line-height: 1.7;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #1a1a1a !important;
+}
+
+body {
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  color: #e5e5e5 !important;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  letter-spacing: -0.02em;
-  line-height: 1.3;
+  letter-spacing: -0.02em !important;
+  line-height: 1.3 !important;
 }
 
+/* ---------- Home Hero ---------- */
+.VPHomeHero,
+.VPHero,
+.VPHome .VPHero,
+.VPHomeHero .container,
+.VPHero .container {
+  background-color: #1a1a1a !important;
+  background: #1a1a1a !important;
+}
+
+.VPHomeHero .name,
+.VPHero .name,
+.VPHomeHero .name .clip,
+.VPHero .name .clip {
+  background: linear-gradient(135deg, #a78bfa, #8b5cf6, #7c3aed) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+}
+
+.VPHomeHero .text,
+.VPHero .text {
+  color: #e5e5e5 !important;
+}
+
+.VPHomeHero .tagline,
+.VPHero .tagline {
+  color: #a3a3a3 !important;
+}
+
+/* ---------- Buttons ---------- */
 .VPButton {
   border-radius: 9999px !important;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease !important;
 }
 
-.VPButton.brand {
-  background: linear-gradient(135deg, var(--vp-c-brand-2), var(--vp-c-brand-1)) !important;
+.VPButton.brand,
+.VPHomeHero .VPButton.brand,
+.VPHero .VPButton.brand {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6) !important;
   border: none !important;
+  color: #ffffff !important;
 }
 
-.VPButton.brand:hover {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
-  transform: translateY(-1px);
+.VPButton.brand:hover,
+.VPHomeHero .VPButton.brand:hover,
+.VPHero .VPButton.brand:hover {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4) !important;
+  transform: translateY(-1px) !important;
+  background: linear-gradient(135deg, #6d28d9, #7c3aed) !important;
 }
 
-.VPDoc .content-container {
-  max-width: 900px;
+.VPButton.alt,
+.VPHomeHero .VPButton.alt,
+.VPHero .VPButton.alt {
+  background-color: transparent !important;
+  border: 1px solid #8b5cf6 !important;
+  color: #a78bfa !important;
 }
 
-.vp-doc a {
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
-  transition: all 0.2s ease;
+.VPButton.alt:hover,
+.VPHomeHero .VPButton.alt:hover,
+.VPHero .VPButton.alt:hover {
+  background-color: rgba(139, 92, 246, 0.1) !important;
+  border-color: #a78bfa !important;
+  color: #a78bfa !important;
 }
 
-.vp-doc a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+/* ---------- Feature cards ---------- */
+.VPFeature,
+.VPHomeFeatures .VPFeature {
+  background-color: #1e1e1e !important;
+  border: 1px solid #2e2e2e !important;
+  border-radius: 0 !important;
 }
 
-.vp-doc div[class*='language-'] {
-  background-color: var(--vp-c-bg-soft) !important;
-  border: 1px solid var(--vp-c-border);
-  box-shadow: none;
+.VPFeature:hover,
+.VPHomeFeatures .VPFeature:hover {
+  border-color: #8b5cf6 !important;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.15) !important;
 }
 
-.vp-doc div[class*='language-'] code {
-  color: var(--vp-c-text-1);
+.VPFeature .title,
+.VPHomeFeatures .VPFeature .title {
+  color: #e5e5e5 !important;
 }
 
-.VPDoc .sidebar {
-  background-color: var(--vp-c-bg) !important;
-  border-right: 1px solid var(--vp-c-border);
+.VPFeature .details,
+.VPHomeFeatures .VPFeature .details {
+  color: #a3a3a3 !important;
 }
 
-.VPDoc .sidebar .item .link:hover {
-  background-color: var(--vp-c-bg-soft);
+.VPFeature .icon,
+.VPHomeFeatures .VPFeature .icon {
+  background-color: rgba(139, 92, 246, 0.1) !important;
+  border-radius: 0 !important;
 }
 
-.VPDoc .sidebar .item.active {
-  background-color: var(--vp-c-bg-soft);
-  border-left: 2px solid var(--vp-c-brand-1);
-}
-
-.VPNav {
-  border-bottom: 1px solid var(--vp-c-border) !important;
-  background-color: var(--vp-c-bg) !important;
+/* ---------- Navigation bar ---------- */
+.VPNav,
+.VPNavBar {
+  background-color: #1a1a1a !important;
+  border-bottom: 1px solid #2e2e2e !important;
   box-shadow: none !important;
 }
 
-.VPNavBar {
-  background-color: transparent !important;
+.VPNavBar .container {
+  background-color: #1a1a1a !important;
 }
 
+.VPNavBar .content {
+  background-color: #1a1a1a !important;
+}
+
+.VPNavBar .title {
+  color: #e5e5e5 !important;
+}
+
+.VPNavBar .content-body {
+  background-color: #1a1a1a !important;
+  border-bottom: none !important;
+}
+
+.VPNavBarMenuLink,
+.VPNavBarMenuGroup .button {
+  color: #a3a3a3 !important;
+}
+
+.VPNavBarMenuLink:hover,
+.VPNavBarMenuLink.active,
+.VPNavBarMenuGroup .button:hover {
+  color: #8b5cf6 !important;
+}
+
+/* ---------- Sidebar ---------- */
+.VPDoc .sidebar,
+.VPSidebar,
+aside.VPDocSidebar,
+.VPDoc:has(.sidebar) > .sidebar {
+  background-color: #1a1a1a !important;
+  border-right: 1px solid #2e2e2e !important;
+}
+
+.VPDoc .sidebar .nav .link:hover,
+.VPSidebar .nav .link:hover,
+.VPDoc .sidebar .item .link:hover {
+  background-color: #1e1e1e !important;
+}
+
+.VPDoc .sidebar .nav .link.active,
+.VPSidebar .nav .link.active,
+.VPDoc .sidebar .item.active {
+  background-color: #1e1e1e !important;
+  border-left: 2px solid #8b5cf6 !important;
+}
+
+.VPDoc .sidebar .sidebar-links .group .link .text,
+.VPSidebar .sidebar-links .group .link .text {
+  color: #a3a3a3 !important;
+}
+
+.VPDoc .sidebar .sidebar-links .group .link.active .text,
+.VPSidebar .sidebar-links .group .link.active .text {
+  color: #8b5cf6 !important;
+}
+
+/* ---------- Content area ---------- */
+.VPDoc .content-container {
+  max-width: 900px !important;
+}
+
+.VPDoc .content-container .main {
+  background-color: #1a1a1a !important;
+}
+
+/* ---------- Links ---------- */
+.vp-doc a {
+  color: #8b5cf6 !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.vp-doc a:hover {
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  color: #a78bfa !important;
+}
+
+/* ---------- Code blocks ---------- */
+.vp-doc div[class*='language-'] {
+  background-color: #1e1e1e !important;
+  border: 1px solid #2e2e2e !important;
+  box-shadow: none !important;
+}
+
+.vp-doc div[class*='language-'] code {
+  color: #e5e5e5 !important;
+}
+
+.vp-doc div[class*='language-'] .lang {
+  color: #a3a3a3 !important;
+}
+
+/* ---------- Inline code ---------- */
+.vp-doc :not(pre) > code {
+  background-color: #1e1e1e !important;
+  border: 1px solid #2e2e2e !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  color: #8b5cf6 !important;
+}
+
+/* ---------- Custom blocks ---------- */
 .custom-block.tip {
-  border-color: var(--vp-c-brand-1) !important;
+  border-color: #8b5cf6 !important;
   background-color: rgba(139, 92, 246, 0.05) !important;
 }
 
 .custom-block.tip .custom-block-title {
-  color: var(--vp-c-brand-1) !important;
+  color: #8b5cf6 !important;
 }
 
 .custom-block.warning {
-  border-color: var(--vp-c-warning-1) !important;
+  border-color: #f59e0b !important;
   background-color: rgba(245, 158, 11, 0.05) !important;
 }
 
 .custom-block.warning .custom-block-title {
-  color: var(--vp-c-warning-1) !important;
+  color: #f59e0b !important;
 }
 
 .custom-block.danger {
@@ -127,46 +325,56 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(239, 68, 68, 0.05) !important;
 }
 
-.VPBadge {
-  border-radius: 9999px !important;
-  background-color: var(--vp-c-brand-1) !important;
-  color: white !important;
+.custom-block.danger .custom-block-title {
+  color: #ef4444 !important;
 }
 
+/* ---------- Badges ---------- */
+.VPBadge {
+  border-radius: 9999px !important;
+  background-color: #8b5cf6 !important;
+  color: #ffffff !important;
+}
+
+/* ---------- Search ---------- */
 .DocSearch {
   border-radius: 9999px !important;
 }
 
-.vp-doc :not(pre) > code {
-  background-color: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
-  padding: 2px 6px;
-  border-radius: 4px !important;
-  color: var(--vp-c-brand-1);
-}
-
+/* ---------- Tables ---------- */
 .vp-doc table {
-  border-collapse: collapse;
+  border-collapse: collapse !important;
 }
 
 .vp-doc table th {
-  background-color: var(--vp-c-bg-soft);
-  border-bottom: 2px solid var(--vp-c-brand-1);
+  background-color: #1e1e1e !important;
+  border-bottom: 2px solid #8b5cf6 !important;
+  color: #e5e5e5 !important;
 }
 
 .vp-doc table td {
-  border-bottom: 1px solid var(--vp-c-border);
+  border-bottom: 1px solid #2e2e2e !important;
+  color: #e5e5e5 !important;
 }
 
+/* ---------- Blockquotes ---------- */
 .vp-doc blockquote {
-  border-left: 3px solid var(--vp-c-brand-1);
-  background-color: var(--vp-c-bg-soft);
-  padding: 12px 20px;
-  color: var(--vp-c-text-2);
+  border-left: 3px solid #8b5cf6 !important;
+  background-color: #1e1e1e !important;
+  padding: 12px 20px !important;
+  color: #a3a3a3 !important;
 }
 
+/* ---------- Footer ---------- */
+.VPFooter {
+  background-color: #1a1a1a !important;
+  border-top: 1px solid #2e2e2e !important;
+}
+
+/* ---------- Responsive sidebar ---------- */
 @media (max-width: 960px) {
-  .VPDoc .sidebar {
-    background-color: var(--vp-c-bg) !important;
+  .VPDoc .sidebar,
+  .VPSidebar {
+    background-color: #1a1a1a !important;
   }
 }
