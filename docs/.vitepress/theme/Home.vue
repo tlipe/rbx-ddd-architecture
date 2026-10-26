@@ -21,7 +21,6 @@ const concepts = [
 <template>
   <div class="home">
     <section class="hero">
-      <div class="hero-glow"></div>
       <div class="hero-grid"></div>
       <div class="hero-corner hero-corner-tl"></div>
       <div class="hero-corner hero-corner-tr"></div>
