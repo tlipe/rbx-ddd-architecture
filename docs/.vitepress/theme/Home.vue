@@ -321,10 +321,10 @@ const concepts = [
 .btn {
   display: inline-block;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   line-height: 1;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border-radius: 9999px;
   text-decoration: none;
   transition: all 200ms ease-out;
