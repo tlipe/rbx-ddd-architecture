@@ -26,9 +26,6 @@ const concepts = [
       <div class="hero-corner hero-corner-tr"></div>
       <div class="hero-corner hero-corner-bl"></div>
       <div class="hero-corner hero-corner-br"></div>
-      <div class="hero-accent hero-accent-1"></div>
-      <div class="hero-accent hero-accent-2"></div>
-      <div class="hero-accent hero-accent-3"></div>
       <div class="hero-content">
         <h1 class="hero-title">
           RBX <span class="gradient-text">DDD</span> Architecture
@@ -202,38 +199,6 @@ const concepts = [
 .hero-corner-br { bottom: 24px; right: 24px; }
 .hero-corner-br::before { bottom: 0; right: 0; width: 1px; height: 24px; }
 .hero-corner-br::after { bottom: 0; right: 0; width: 24px; height: 1px; }
-
-.hero-accent {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(40px);
-}
-
-.hero-accent-1 {
-  width: 120px;
-  height: 120px;
-  top: 10%;
-  left: -5%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.12), transparent 70%);
-}
-
-.hero-accent-2 {
-  width: 80px;
-  height: 80px;
-  bottom: 15%;
-  right: 5%;
-  background: radial-gradient(circle, rgba(167, 139, 250, 0.1), transparent 70%);
-}
-
-.hero-accent-3 {
-  width: 60px;
-  height: 60px;
-  top: 60%;
-  left: 40%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.08), transparent 70%);
-}
 
 .hero-content {
   position: relative;
@@ -689,6 +654,7 @@ const concepts = [
   font-size: 12px;
   font-weight: 500;
   color: var(--vp-c-text-2);
+  margin-right: 16px;
 }
 
 .strip-link {
@@ -697,6 +663,7 @@ const concepts = [
   color: var(--vp-c-brand-3, #a78bfa);
   text-decoration: none;
   transition: color 200ms ease-out;
+  margin-right: 16px;
 }
 
 .strip-link:hover {
