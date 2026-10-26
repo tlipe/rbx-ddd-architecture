@@ -3,7 +3,7 @@ import DefaultTheme from 'vitepress/theme'
 import { computed } from 'vue'
 import { useRoute } from 'vitepress'
 
-const { Layout } = DefaultTheme
+const Layout = DefaultTheme.Layout
 const route = useRoute()
 
 const isHome = computed(() => {
