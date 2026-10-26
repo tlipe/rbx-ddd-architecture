@@ -14,7 +14,7 @@ const isCustomHome = computed(() => {
 
 <template>
   <Layout>
-    <template #home-hero-before v-if="isCustomHome">
+    <template #doc-before v-if="isCustomHome">
       <Home />
     </template>
   </Layout>
