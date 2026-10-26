@@ -1,6 +1,7 @@
 ---
 layout: page
 sidebar: false
+customHome: true
 ---
 
 <script setup>

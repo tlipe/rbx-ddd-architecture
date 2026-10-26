@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import DefaultTheme from 'vitepress/theme'
-import { useRoute, useData } from 'vitepress'
+import { useData } from 'vitepress'
 import { computed } from 'vue'
 import Home from './Home.vue'
 
 const { Layout } = DefaultTheme
-const route = useRoute()
-const { site } = useData()
+const { frontmatter } = useData()
 
-const isHome = computed(() => {
-  const base = site.value.base || '/'
-  const normalizedBase = base.endsWith('/') ? base : base + '/'
-  const path = route.path
-  return path === '/' || path === '/index.html' || path === normalizedBase || path === normalizedBase + 'index.html'
+const isCustomHome = computed(() => {
+  return frontmatter.value.customHome === true
 })
 </script>
 
 <template>
-  <Home v-if="isHome" />
+  <Home v-if="isCustomHome" />
   <Layout v-else />
 </template>
