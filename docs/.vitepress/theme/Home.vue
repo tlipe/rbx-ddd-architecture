@@ -48,6 +48,11 @@ const concepts = [
   <div class="home">
     <section class="hero">
       <div class="hero-grid"></div>
+      <div class="hero-dots">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
       <div class="hero-corner hero-corner-tl"></div>
       <div class="hero-corner hero-corner-tr"></div>
       <div class="hero-corner hero-corner-bl"></div>
@@ -848,6 +853,35 @@ const concepts = [
     right: 16px;
   }
 }
+
+/* Elegant dots decoration */
+.hero-dots {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.hero-dots .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vp-c-brand-1, #8b5cf6);
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-dots .dot:nth-child(2) { animation-delay: 0.5s; }
+.hero-dots .dot:nth-child(3) { animation-delay: 1s; }
+.hero-dots .dot:nth-child(4) { animation-delay: 1.5s; }
+.hero-dots .dot:nth-child(5) { animation-delay: 2s; }
+.hero-dots .dot:nth-child(6) { animation-delay: 2.5s; }
+.hero-dots .dot:nth-child(7) { animation-delay: 3s; }
+.hero-dots .dot:nth-child(8) { animation-delay: 3.5s; }
+.hero-dots .dot:nth-child(9) { animation-delay: 4s; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-content,
