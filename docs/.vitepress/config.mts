@@ -27,8 +27,7 @@ export default defineConfig({
         text: 'Getting Started',
         items: [
           { text: 'Introduction', link: '/' },
-          { text: 'Installation', link: '/guide/installation' },
-          { text: 'Skills', link: 'https://github.com/tlipe/based-rbx-skills' }
+          { text: 'Installation', link: '/guide/installation' }
         ]
       },
       {
