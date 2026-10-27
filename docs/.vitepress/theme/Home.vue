@@ -1,30 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const commandCopied = ref(false)
-
-const copyCommand = async () => {
-  const text = 'npx skills add https://github.com/tlipe/based-rbx-skills'
-  try {
-    if (navigator.clipboard && window.isSecureContext) {
-      await navigator.clipboard.writeText(text)
-    } else {
-      const textArea = document.createElement('textarea')
-      textArea.value = text
-      textArea.style.position = 'fixed'
-      textArea.style.left = '-999999px'
-      document.body.appendChild(textArea)
-      textArea.select()
-      document.execCommand('copy')
-      document.body.removeChild(textArea)
-    }
-    commandCopied.value = true
-    setTimeout(() => { commandCopied.value = false }, 2000)
-  } catch (err) {
-    console.error('Failed to copy:', err)
-  }
-}
-
 const concepts = [
   {
     title: 'Server-Authoritative',
@@ -48,11 +22,6 @@ const concepts = [
   <div class="home">
     <section class="hero">
       <div class="hero-grid"></div>
-      <div class="hero-dots">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
       <div class="hero-corner hero-corner-tl"></div>
       <div class="hero-corner hero-corner-tr"></div>
       <div class="hero-corner hero-corner-bl"></div>
@@ -141,14 +110,11 @@ const concepts = [
           Install the dedicated skill for this architecture and get AI-powered guidance for your Roblox DDD projects.
         </p>
         <div class="skills-command">
-          <code @click="copyCommand" class="skills-command-code">npx skills add https://github.com/tlipe/based-rbx-skills</code>
-          <button @click="copyCommand" class="skills-copy-btn" :class="{ copied: commandCopied }">
-            {{ commandCopied ? '✓ Copied' : 'Copy' }}
-          </button>
+          <code>npx skills add https://github.com/tlipe/based-rbx-skills</code>
         </div>
         <div class="skills-links">
-          <a href="https://github.com/tlipe/based-rbx-skills" target="_blank" rel="noopener" class="skills-link">Skills Repository</a>
-          <a href="https://github.com/tlipe/based-rbx-skills/blob/main/skills/roblox-ddd/SKILL.md" target="_blank" rel="noopener" class="skills-link">DDD Skill Docs</a>
+          <a href="https://github.com/tlipe/based-rbx-skills" target="_blank" rel="noopener">Skills Repository</a>
+          <a href="https://github.com/tlipe/based-rbx-skills/blob/main/skills/roblox-ddd/SKILL.md" target="_blank" rel="noopener">DDD Skill Docs</a>
         </div>
       </div>
     </section>
@@ -513,37 +479,9 @@ const concepts = [
   font-size: 14px;
   color: var(--vp-c-brand-1);
   font-weight: 600;
-  cursor: pointer;
   user-select: all;
-  flex: 1;
-}
-
-.skills-command code:hover {
-  color: var(--vp-c-brand-3, #a78bfa);
-}
-
-.skills-copy-btn {
-  background-color: transparent;
-  border: 1px solid var(--vp-c-brand-1);
-  color: var(--vp-c-brand-1);
-  padding: 6px 16px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 200ms ease-out;
-  white-space: nowrap;
-}
-
-.skills-copy-btn:hover {
-  background-color: var(--vp-c-brand-1);
-  color: var(--vp-c-bg);
-}
-
-.skills-copy-btn.copied {
-  background-color: #10b981;
-  border-color: #10b981;
-  color: white;
+  display: block;
+  text-align: center;
 }
 
 .skills-links {
@@ -553,22 +491,15 @@ const concepts = [
   flex-wrap: wrap;
 }
 
-.skills-link {
+.skills-links a {
   color: var(--vp-c-brand-1);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
-  transition: all 200ms ease-out;
-  padding: 8px 16px;
-  border: 1px solid var(--vp-c-brand-1);
-  border-radius: 4px;
-  display: inline-block;
 }
 
-.skills-link:hover {
-  background-color: var(--vp-c-brand-1);
-  color: var(--vp-c-bg);
-  text-decoration: none;
+.skills-links a:hover {
+  text-decoration: underline;
 }
 
 .card {
@@ -853,35 +784,6 @@ const concepts = [
     right: 16px;
   }
 }
-
-/* Elegant dots decoration */
-.hero-dots {
-  position: absolute;
-  top: 20%;
-  left: 5%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 0;
-  opacity: 0.6;
-}
-
-.hero-dots .dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--vp-c-brand-1, #8b5cf6);
-  animation: float 4s ease-in-out infinite;
-}
-
-.hero-dots .dot:nth-child(2) { animation-delay: 0.5s; }
-.hero-dots .dot:nth-child(3) { animation-delay: 1s; }
-.hero-dots .dot:nth-child(4) { animation-delay: 1.5s; }
-.hero-dots .dot:nth-child(5) { animation-delay: 2s; }
-.hero-dots .dot:nth-child(6) { animation-delay: 2.5s; }
-.hero-dots .dot:nth-child(7) { animation-delay: 3s; }
-.hero-dots .dot:nth-child(8) { animation-delay: 3.5s; }
-.hero-dots .dot:nth-child(9) { animation-delay: 4s; }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-content,
