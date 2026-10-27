@@ -403,6 +403,11 @@ aside.VPDocSidebar,
   display: none !important;
 }
 
+/* ---------- Hide extra menu (3 dots) ---------- */
+.VPNavBarExtra {
+  display: none !important;
+}
+
 /* ---------- Global text selection fix ---------- */
 .vp-doc,
 .vp-doc * {
