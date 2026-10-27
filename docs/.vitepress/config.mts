@@ -19,14 +19,16 @@ export default defineConfig({
     outline: 'deep',
     nav: [
       { text: 'Guide', link: '/' },
-      { text: 'GitHub', link: 'https://github.com/tlipe/rbx-ddd-architecture' }
+      { text: 'GitHub', link: 'https://github.com/tlipe/rbx-ddd-architecture' },
+      { text: 'Skills', link: 'https://github.com/tlipe/based-rbx-skills' }
     ],
     sidebar: [
       {
         text: 'Getting Started',
         items: [
           { text: 'Introduction', link: '/' },
-          { text: 'Installation', link: '/guide/installation' }
+          { text: 'Installation', link: '/guide/installation' },
+          { text: 'Skills', link: 'https://github.com/tlipe/based-rbx-skills' }
         ]
       },
       {

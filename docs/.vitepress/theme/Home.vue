@@ -109,15 +109,12 @@ const concepts = [
         <p class="skills-description">
           Install the dedicated skill for this architecture and get AI-powered guidance for your Roblox DDD projects.
         </p>
-        <div class="skills-command">
-          <input
-            type="text"
-            readonly
-            class="skills-command-input"
-            value="npx skills add https://github.com/tlipe/based-rbx-skills"
-            @focus="($event.target as HTMLInputElement).select()"
-          />
-        </div>
+        <a
+          class="btn btn-primary"
+          href="https://github.com/tlipe/based-rbx-skills"
+          rel="noopener"
+          target="_blank"
+        >Browse Skills</a>
       </div>
     </section>
 
@@ -135,6 +132,12 @@ const concepts = [
         href="https://github.com/tlipe/rbx-ddd-architecture"
         rel="noopener"
       >github.com/tlipe/rbx-ddd-architecture</a>
+      <a
+        class="strip-link"
+        href="https://github.com/tlipe/based-rbx-skills"
+        rel="noopener"
+        target="_blank"
+      >Skills</a>
       <span class="strip-credit">Made by <strong>O_Kolt</strong> <span class="brazil-flag">🇧🇷</span></span>
     </footer>
   </div>
@@ -462,31 +465,6 @@ const concepts = [
   line-height: 1.6;
   color: var(--vp-c-text-2);
   margin: 0 0 32px 0;
-}
-
-.skills-command {
-  background-color: var(--vp-c-bg-alt, #242424);
-  border: 1px solid var(--vp-c-border, #2e2e2e);
-  border-radius: 6px;
-  padding: 16px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.skills-command-input {
-  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 14px;
-  color: var(--vp-c-brand-1);
-  font-weight: 600;
-  background: transparent;
-  border: none;
-  outline: none;
-  text-align: center;
-  width: 100%;
-  cursor: text;
-  user-select: text;
-  -webkit-user-select: text;
 }
 
 .card {
