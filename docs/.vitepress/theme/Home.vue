@@ -112,10 +112,6 @@ const concepts = [
         <div class="skills-command">
           <code>npx skills add https://github.com/tlipe/based-rbx-skills</code>
         </div>
-        <div class="skills-links">
-          <a href="https://github.com/tlipe/based-rbx-skills" target="_blank" rel="noopener">Skills Repository</a>
-          <a href="https://github.com/tlipe/based-rbx-skills/blob/main/skills/roblox-ddd/SKILL.md" target="_blank" rel="noopener">DDD Skill Docs</a>
-        </div>
       </div>
     </section>
 
@@ -467,11 +463,9 @@ const concepts = [
   border: 1px solid var(--vp-c-border, #2e2e2e);
   border-radius: 6px;
   padding: 16px 24px;
-  margin-bottom: 24px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  justify-content: center;
 }
 
 .skills-command code {
@@ -479,27 +473,9 @@ const concepts = [
   font-size: 14px;
   color: var(--vp-c-brand-1);
   font-weight: 600;
-  user-select: all;
-  display: block;
+  user-select: text;
+  cursor: text;
   text-align: center;
-}
-
-.skills-links {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.skills-links a {
-  color: var(--vp-c-brand-1);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.skills-links a:hover {
-  text-decoration: underline;
 }
 
 .card {
