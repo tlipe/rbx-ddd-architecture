@@ -88,7 +88,7 @@ StarterPlayer/StarterPlayerScripts/
     └── utils/
 ```
 
-For detailed folder reference and explanations, see the [full documentation](https://tlipe.github.io/rbx-ddd-architecture/architecture/folder-reference).
+For detailed folder reference, see the [full documentation](https://tlipe.github.io/rbx-ddd-architecture/architecture/folder-reference).
 
 ---
 
@@ -135,26 +135,24 @@ loadstring(source)()
 
 ---
 
-## Code rules
+## Contracts
 
-Strict conventions baked into the architecture:
-
-| Rule | Detail |
-|---|---|
-| **English only** | Identifiers, strings, logs, error messages. Zero Portuguese in code. |
-| **No comments** | Unless explicitly requested. |
-| **camelCase** | Local variables, member values, functions, params, table keys. |
-| **PascalCase** | Types/classes and Roblox API references. |
-| **LOUD_SNAKE_CASE** | `const` bindings holding config or service references. Enum members exempt. |
-| **Services always `const`** | Never `local`. Module refs, configs, singletons: `const`. Mutable state, loop counters, accumulators: `local`. |
+| Path | Type | Contract |
+|---|---|---|
+| `*/services/*.luau` | ModuleScript | Long-lived infrastructure. Initializes once. Returns table with public methods OR `return 0` if side-effect only. No `start()`. Require failure aborts that service but continues others. |
+| `*/controllers/*.luau` | ModuleScript | Orchestration layer. Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. Called after all services load. |
+| `shared/events/*.luau` | ModuleScript | One file per server↔client connection. Named after the event. Wraps the network library call. Ends with `return 0`. |
+| `shared/index/*.luau` | ModuleScript | Pure data. Direct `return { ... }`. Query/filter/lookup goes in `shared/utils/*Helper`. |
+| `shared/registry/*.luau` | ModuleScript | Registrar/voter environment. Single expression `return { key = value, ... }`. |
+| `shared/packages/*` | Folder | External libraries ONLY. User-added. Nothing project-specific belongs here. |
+| `client/ui/frames/*.luau` | ModuleScript | One file per UI surface. Filename identifies the UI. Contains normal interface-building code. Ends with `return 0`. Spawned by HUD runner. |
+| `client/ui/hud` | ModuleScript | Internal orchestrator. Do not modify without understanding the frame loop. |
 
 ---
 
-## Writing your first module
+## Module examples
 
 ### Service
-
-Long-lived infrastructure. Initializes once when required. Returns `0` if side-effect only, OR a table with public methods. No `start()`.
 
 ```lua
 -- server/services/DataStoreService.luau
@@ -187,8 +185,6 @@ return {
 
 ### Controller
 
-Orchestrates a system using its lifecycle hook. Must return `{ start = function(self) }`. Bootstrapper calls `start()` after all services load.
-
 ```lua
 -- server/controllers/PlayerJoinController.luau
 const Players = game:GetService("Players")
@@ -218,9 +214,7 @@ return {
 }
 ```
 
-### Event (shared/events)
-
-Each server↔client connection is one ModuleScript named after the event. Works alongside whatever network library lives in `shared/packages`.
+### Event
 
 ```lua
 -- shared/events/purchaseItem.luau
@@ -229,16 +223,14 @@ const NetworkLib = require(Packages.NetworkLib)
 
 NetworkLib.define("purchaseItem", {
 	fireServer = function(itemId: string, quantity: number)
-		-- code working with this event
+		-- fire/listen wiring for this connection
 	end,
 })
 
 return 0
 ```
 
-### Registry / Index module
-
-Pure data contracts. Return the table directly. No intermediate variable. No `table.freeze()`.
+### Registry
 
 ```lua
 -- shared/registry/weapons.luau
@@ -256,26 +248,7 @@ return {
 }
 ```
 
-Wrong (do NOT do this):
-
-```lua
-local weapons = {}
-weapons.sword = { damage = 15 }
-table.freeze(weapons)
-return table.freeze(weapons)
-```
-
-Correct:
-
-```lua
-return {
-	sword = { damage = 15 },
-}
-```
-
-### HUD Frame (client/ui/frames)
-
-One ModuleScript per UI surface. The module name IS the UI it programs. Inside: normal code building that interface. Runner spawns it in parallel.
+### HUD Frame
 
 ```lua
 -- client/ui/frames/shopCoin.luau
@@ -290,21 +263,6 @@ end)
 
 return 0
 ```
-
----
-
-## Contracts
-
-| Path | Type | Contract |
-|---|---|---|
-| `*/services/*.luau` | ModuleScript | Long-lived infrastructure. Initializes once. Returns table with public methods OR `return 0` if side-effect only. No `start()`. Require failure aborts that service but continues others. |
-| `*/controllers/*.luau` | ModuleScript | Orchestration layer. Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. Called after all services load. |
-| `shared/events/*.luau` | ModuleScript | One file per server↔client connection. Named after the event. Wraps the network library call. Ends with `return 0`. |
-| `shared/index/*.luau` | ModuleScript | Pure data. Direct `return { ... }`. No intermediate var. No freeze. Query/filter/lookup goes in `shared/utils/*Helper`. |
-| `shared/registry/*.luau` | ModuleScript | Registrar/voter environment. Single expression `return { key = value, ... }`. Never assign to local first. Never wrap in `table.freeze()`. |
-| `shared/packages/*` | Folder | External libraries ONLY. User-added. Nothing project-specific belongs here. |
-| `client/ui/frames/*.luau` | ModuleScript | One file per UI surface. Filename identifies the UI. Contains normal interface-building code. Ends with `return 0`. Spawned by HUD runner. |
-| `client/ui/hud` | ModuleScript | Internal orchestrator. Do not modify without understanding the frame loop. |
 
 ---
 
