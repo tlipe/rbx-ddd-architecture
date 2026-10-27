@@ -166,7 +166,7 @@ const concepts = [
   inset: 0;
   background-image: radial-gradient(circle, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
   background-size: 24px 24px;
-  opacity: 0.4;
+  opacity: 0.7;
   pointer-events: none;
   z-index: 0;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
