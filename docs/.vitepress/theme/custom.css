@@ -402,3 +402,10 @@ aside.VPDocSidebar,
 .VPLocalNav {
   display: none !important;
 }
+
+/* ---------- Global text selection fix ---------- */
+.vp-doc,
+.vp-doc * {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
