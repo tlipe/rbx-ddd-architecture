@@ -164,9 +164,9 @@ const concepts = [
 .hero-grid {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(139, 92, 246, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(139, 92, 246, 0.25) 1.5px, transparent 1.5px);
   background-size: 24px 24px;
-  opacity: 0.7;
+  opacity: 1;
   pointer-events: none;
   z-index: 0;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
