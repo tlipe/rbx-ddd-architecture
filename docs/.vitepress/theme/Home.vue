@@ -443,6 +443,13 @@ const concepts = [
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: gradientShift 4s ease infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.skills-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .skills-header {
