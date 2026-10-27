@@ -110,7 +110,13 @@ const concepts = [
           Install the dedicated skill for this architecture and get AI-powered guidance for your Roblox DDD projects.
         </p>
         <div class="skills-command">
-          <code>npx skills add https://github.com/tlipe/based-rbx-skills</code>
+          <input
+            type="text"
+            readonly
+            class="skills-command-input"
+            value="npx skills add https://github.com/tlipe/based-rbx-skills"
+            @focus="($event.target as HTMLInputElement).select()"
+          />
         </div>
       </div>
     </section>
@@ -468,17 +474,19 @@ const concepts = [
   justify-content: center;
 }
 
-.skills-command code {
+.skills-command-input {
   font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 14px;
   color: var(--vp-c-brand-1);
   font-weight: 600;
-  user-select: text !important;
-  -webkit-user-select: text !important;
-  cursor: text;
+  background: transparent;
+  border: none;
+  outline: none;
   text-align: center;
-  display: block;
   width: 100%;
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 .card {
