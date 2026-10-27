@@ -473,9 +473,12 @@ const concepts = [
   font-size: 14px;
   color: var(--vp-c-brand-1);
   font-weight: 600;
-  user-select: text;
+  user-select: text !important;
+  -webkit-user-select: text !important;
   cursor: text;
   text-align: center;
+  display: block;
+  width: 100%;
 }
 
 .card {
