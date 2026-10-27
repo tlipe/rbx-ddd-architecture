@@ -1,5 +1,6 @@
 ---
-layout: doc
+layout: page
 sidebar: false
-customHome: true
 ---
+
+<Home />

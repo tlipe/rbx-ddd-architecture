@@ -378,3 +378,27 @@ aside.VPDocSidebar,
     background-color: #1a1a1a !important;
   }
 }
+
+/* ---------- Home page full width ---------- */
+.VPPage .vp-doc {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.VPPage .content-container {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.VPPage .main {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.VPPage .VPDoc .container {
+  max-width: 100% !important;
+}
+
+.VPLocalNav {
+  display: none !important;
+}

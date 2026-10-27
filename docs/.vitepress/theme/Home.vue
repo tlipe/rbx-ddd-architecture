@@ -4,8 +4,20 @@ import { ref } from 'vue'
 const commandCopied = ref(false)
 
 const copyCommand = async () => {
+  const text = 'npx skills add https://github.com/tlipe/based-rbx-skills'
   try {
-    await navigator.clipboard.writeText('npx skills add https://github.com/tlipe/based-rbx-skills')
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text)
+    } else {
+      const textArea = document.createElement('textarea')
+      textArea.value = text
+      textArea.style.position = 'fixed'
+      textArea.style.left = '-999999px'
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+    }
     commandCopied.value = true
     setTimeout(() => { commandCopied.value = false }, 2000)
   } catch (err) {
