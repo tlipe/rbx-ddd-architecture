@@ -5,7 +5,9 @@ description: "Module contracts for services, controllers, events, indexes, regis
 
 # Contracts
 
-A contract is what a module must return and how the bootstrapper treats it. Contract violations fail at load time with a logged error, not silently at runtime.
+A contract defines what a module must return and how the bootstrapper treats it. The bootstrapper enforces these contracts at load time: if a module violates its shape, you get a logged error immediately, not a silent failure that shows up hours later during gameplay.
+
+This fail-fast approach exists because Roblox games have complex initialization sequences. If a service fails to load but the game continues anyway, controllers that depend on it will get nil references and crash later. By catching contract violations at load time, you know exactly what broke and where, instead of debugging a cascade of runtime errors.
 
 ## Contract table
 
@@ -22,19 +24,31 @@ A contract is what a module must return and how the bootstrapper treats it. Cont
 
 ## Services
 
-Initialize once when required. Either side-effect only (`return 0`) or a table of public methods. Never expose `start()`; the bootstrapper does not call one on services. A failing require kills that service only; the rest continue loading.
+Services initialize once when required. They return either a table of public methods (if other modules need to call into the service) or `return 0` (if the service only needs to set up listeners or prime caches).
+
+Services never expose `start()`. The bootstrapper doesn't call one. Services initialize at require time, and that's it. This is different from controllers, which we'll cover next.
+
+The reason services don't have a `start()` method is that they're infrastructure, not orchestration. A `DataStoreService` that handles persistence is always available once it's required. It doesn't need to wait for other services or coordinate with controllers. It just does its job. Controllers, on the other hand, need to initialize in a specific order after all services are ready, which is why they have `start()`.
+
+A failing require kills that service only; the rest continue loading. This is intentional. One broken service shouldn't take down your entire game. You'll see a `[SERVICE]` error in the Output, and you can fix it without affecting other systems.
 
 See [Service](/modules/service) for a full example.
 
 ## Controllers
 
-Return exactly `{ start = function(self) }`. The bootstrapper requires every controller, validates the shape, then calls `start()` in order after all services are loaded. Missing `start` or a wrong type is a load-time error.
+Controllers return exactly `{ start = function(self) }`. The bootstrapper requires every controller, validates the shape, then calls `start()` in order after all services are loaded. Missing `start` or a wrong type is a load-time error.
+
+The reason controllers have a `start()` method but services don't is sequencing. Controllers need to initialize after all services are ready. If a controller tried to use DataStoreService before that service was initialized, you'd get nil references and silent failures that are nightmare fuel to debug. The `start()` method ensures proper ordering, so by the time your controller runs, everything it depends on is already there.
+
+Controllers orchestrate systems. They don't implement domain logic. A `PlayerJoinController` connects to `Players.PlayerAdded` and `Players.PlayerRemoving`, loads player data from the service, and sets attributes. It doesn't know how DataStoreService works internally. It just calls the public methods. This separation keeps controllers focused on wiring and flow, while services handle the actual work.
 
 See [Controller](/modules/controller).
 
 ## Events
 
-One ModuleScript per connection, named after the event. The module wraps the network library call and ends with `return 0`. It is required for its side effect of registering the connection, not for a return value.
+Events handle server-client communication. One ModuleScript per connection, named after the event. The module wraps the network library call and ends with `return 0`. It's required for its side effect of registering the connection, not for a return value.
+
+The reason we use one file per event is maintainability. When you're debugging a network issue, you can immediately find the exact file that handles that connection. No hunting through monolithic network modules. It's the difference between having one giant phone book and having a contact card for each person.
 
 ```luau
 -- shared/events/purchaseItem.luau
@@ -50,11 +64,15 @@ NetworkLib.define("purchaseItem", {
 return 0
 ```
 
+Notice how the file is named after the event it handles. This isn't just a convention. It's a discoverability feature. When you're looking for where `purchaseItem` is defined, you don't search through code. You just open `shared/events/purchaseItem.luau`.
+
 See [Event](/modules/event).
 
 ## Indexes and registries
 
-Pure data. Return the table directly. Never attach methods to the data table; lookup logic lives in `shared/utils/*Helper`.
+Both indexes and registries are pure data. You return the table directly. Never attach methods to the index table; lookup logic lives in `shared/utils/*Helper`.
+
+The reason for this strict separation is that it keeps data pure and behavior isolated. When data tables are immutable and method-free, you can reason about them without worrying about hidden side effects. And when lookup logic is in utilities, it's reusable and testable.
 
 Wrong:
 
@@ -64,6 +82,8 @@ weapons.sword = { damage = 15 }
 table.freeze(weapons)
 return table.freeze(weapons)
 ```
+
+The problem with this pattern isn't that `table.freeze()` is bad. The problem is that you're assigning to a local first, which means the table is mutable during construction. There's a window where the table could be modified before it's frozen. Direct return removes that window entirely.
 
 Correct:
 
@@ -79,7 +99,9 @@ See [Registry](/modules/registry).
 
 ## HUD frames
 
-The filename IS the UI surface. You write normal code building that interface, ending with `return 0`. The HUD runner spawns each frame in parallel via `task.spawn`.
+HUD frames handle your UI surfaces. The filename IS the UI surface. You write normal code building that interface, ending with `return 0`. The HUD runner spawns each frame in parallel via `task.spawn`.
+
+The reason we spawn frames in parallel is performance. If you have ten UI frames and they each take 100ms to initialize, spawning them in parallel means your UI is ready in 100ms total, not 1000ms. That's the difference between a snappy UI and a sluggish one.
 
 See [HUD Frame](/modules/hud-frame).
 
