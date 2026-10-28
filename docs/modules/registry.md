@@ -69,7 +69,7 @@ Same mechanics, different intent:
 Both use direct `return { ... }`. Neither attaches methods. Neither freezes.
 
 ::: tip
-If you need to mutate the table later, it does not belong in registry/index — move it to a service or class.
+If you need to mutate the table later, move it to a service or class. It does not belong in registry/index.
 :::
 
 See [Contracts](/architecture/contracts) for how the bootstrapper treats these modules and [Folder Reference](/architecture/folder-reference) for placement.

@@ -50,7 +50,7 @@ Common causes:
 
 ## HUD frame errors
 
-A frame that throws logs under `[HUD]` and is skipped. Other frames keep running. To locate the bad frame, read the suffix after `Bootstrap runtime error:` — it names the frame module. Fix the frame, re-run, confirm the `[HUD]` error clears.
+A frame that throws logs under `[HUD]` and is skipped. Other frames keep running. The suffix after `Bootstrap runtime error:` names the frame module. Fix that frame, re-run, and confirm the `[HUD]` error clears.
 
 ::: info
 Contract violations fail at load time, not silently at runtime. If a module loads but behaves wrongly later, the bug is inside the module, not the architecture.
