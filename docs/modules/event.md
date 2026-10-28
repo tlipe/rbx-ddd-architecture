@@ -38,4 +38,4 @@ return 0
 - Both sides require the same module path so the channel definition stays identical on server and client.
 - Payload shapes belong in `shared/definitions`. Reference the type, do not redefine it inline.
 
-See [Folder Reference](/architecture/folder-reference) for where `shared/events` sits relative to `shared/packages` and `shared/definitions`, and [racts](/architecture/contracts) for the full contract table.
+See [Folder Reference](/architecture/folder-reference) for where `shared/events` sits relative to `shared/packages` and `shared/definitions`, and [Contracts](/architecture/contracts) for the full contract table.
