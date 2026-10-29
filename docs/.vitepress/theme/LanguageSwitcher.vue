@@ -106,20 +106,28 @@ watch(() => route.path, () => {
 }
 
 .lang-select {
-  background: transparent;
+  background: var(--vp-c-bg-soft, #1a1a1a);
   border: 1px solid var(--vp-c-border, #2e2e2e);
-  color: var(--vp-c-text-1);
+  color: var(--vp-c-text-1, #e2e8f0);
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 13px;
   font-family: Inter, -apple-system, BlinkMacSystemFont, sans-serif;
   cursor: pointer;
   transition: all 200ms ease-out;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+}
+
+.lang-select option {
+  background: var(--vp-c-bg-soft, #1a1a1a);
+  color: var(--vp-c-text-1, #e2e8f0);
+  padding: 8px 12px;
 }
 
 .lang-select:hover {
   border-color: var(--vp-c-brand-1);
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(139, 92, 246, 0.15);
 }
 
 .lang-select:focus {
