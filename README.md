@@ -4,7 +4,7 @@
 
 **Domain-Driven Design for Roblox Studio.**
 
-One-click install. Automatic server/client bootstrapper. Ready-made conventions for games of any scale.
+One-click install. Automatic server/client bootstrapper. Conventions for small and large games.
 
 [![License: MPL-2.0](https://img.shields.io/badge/License-MPL--2.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](#)
@@ -94,13 +94,13 @@ For detailed folder reference, see the [full documentation](https://tlipe.github
 
 ## AI-Powered Development
 
-Get intelligent assistance for this architecture with the dedicated DDD skill:
+Use the DDD skill for code generation and architecture guidance:
 
 ```bash
 npx skills add https://github.com/tlipe/based-rbx-skills
 ```
 
-This skill provides context-aware guidance, code generation, and best practices for building with this architecture.
+The skill generates code that follows the architecture conventions and validates contracts.
 
 **Learn more:**
 - [Skills Repository](https://github.com/tlipe/based-rbx-skills)
@@ -131,7 +131,7 @@ if not ok then error(source) end
 loadstring(source)()
 ```
 
-3. Run. The script downloads the latest version straight from GitHub.
+3. Run. The script downloads the latest version from GitHub.
 
 ---
 

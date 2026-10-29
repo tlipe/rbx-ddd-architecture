@@ -20,7 +20,7 @@ Files use the `.luau` Luau dialect (`const`, `type`, `::`, `+=`), not plain Lua.
 
 ## Option B — HttpService (remote download)
 
-This pulls the latest `install.luau` straight from GitHub at runtime.
+This pulls the latest `install.luau` from GitHub at runtime.
 
 1. Enable HTTP: **Game Settings → Security → Allow HTTP Requests: ON**.
 
@@ -41,7 +41,7 @@ loadstring(source)()
 3. Run (Play Solo). The script downloads and executes the latest installer.
 
 ::: info
-Option B depends on the raw GitHub URL staying reachable. If the repo moves or the branch changes, update the `url` string. Option A has no network dependency.
+Option B requires the raw GitHub URL to be reachable. If the repo moves or the branch changes, update the `url` string. Option A has no network dependency.
 :::
 
 After either option, the server bootstrapper loads services and controllers, then sets `workspace.ServerLoaded`. The client bootstrapper waits on that attribute before initializing. See [Introduction](/) for the full flow.

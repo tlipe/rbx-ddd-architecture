@@ -7,7 +7,7 @@ description: What the RBX DDD architecture is, why use it, and how the server/cl
 
 RBX DDD Architecture is a folder-and-convention foundation for Roblox Luau projects. Every module has a fixed home, a fixed lifecycle, and a fixed contract. You add files in the right folder and they work. No manual wiring between modules.
 
-One script generates the entire tree, the server and client bootstrappers, and the contract scaffolding. From there the structure scales from 3 services to 30 without refactoring.
+One script generates the entire tree, the server and client bootstrappers, and the contract scaffolding. The structure scales from 3 services to 30 without refactoring.
 
 ## Why use it
 
