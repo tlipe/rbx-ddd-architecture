@@ -53,6 +53,12 @@ export default defineConfig({
         items: [
           { text: 'Debugging', link: '/debugging/index' }
         ]
+      },
+      {
+        text: 'AI Integration',
+        items: [
+          { text: 'Working with AI', link: '/ai/' }
+        ]
       }
     ]
   }
