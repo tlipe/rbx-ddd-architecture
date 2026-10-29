@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import LanguageSwitcher from './LanguageSwitcher.vue'
+
 const concepts = [
   {
     title: 'Server-Authoritative',
@@ -20,6 +22,11 @@ const concepts = [
 
 <template>
   <div class="home">
+    <div class="home-header">
+      <ClientOnly>
+        <LanguageSwitcher />
+      </ClientOnly>
+    </div>
     <section class="hero">
       <div class="hero-grid"></div>
       <div class="hero-corner hero-corner-tl"></div>
@@ -147,6 +154,14 @@ const concepts = [
 .home {
   background-color: var(--vp-c-bg);
   padding-bottom: 0;
+}
+
+.home-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 32px;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 .hero {
