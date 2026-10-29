@@ -52,8 +52,6 @@ return 0
 
 The `Packages` and `NetworkLib` bindings are `const`: module references, immutable for the file's lifetime. `define` registers the channel. The trailing `return 0` marks the module as side-effect-only.
 
-Notice how clean this is. The entire connection definition fits in a few lines. When you need to understand how `purchaseItem` works, you open this file and you're done.
-
 ## Payload shapes belong in definitions
 
 If your event passes complex data structures (like a purchase request with item ID, quantity, and player inventory snapshot), those shapes belong in `shared/definitions`, not inline in the event module.

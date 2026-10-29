@@ -48,8 +48,6 @@ See [Controller](/modules/controller).
 
 Events handle server-client communication. One ModuleScript per connection, named after the event. The module wraps the network library call and ends with `return 0`. It's required for its side effect of registering the connection, not for a return value.
 
-The reason we use one file per event is maintainability. When you're debugging a network issue, you can immediately find the exact file that handles that connection. No hunting through monolithic network modules. It's the difference between having one giant phone book and having a contact card for each person.
-
 ```luau
 -- shared/events/purchaseItem.luau
 const Packages = script.Parent.Parent.packages
@@ -62,8 +60,6 @@ NetworkLib.define("purchaseItem", {
 
 return 0
 ```
-
-Notice how the file is named after the event it handles. This isn't just a convention. It's a discoverability feature. When you're looking for where `purchaseItem` is defined, you don't search through code. You just open `shared/events/purchaseItem.luau`.
 
 See [Event](/modules/event).
 
@@ -97,8 +93,6 @@ See [Registry](/modules/registry).
 ## HUD frames
 
 HUD frames handle your UI surfaces. The filename IS the UI surface. You write normal code building that interface, ending with `return 0`. The HUD runner spawns each frame in parallel via `task.spawn`.
-
-The reason we spawn frames in parallel is performance. If you have ten UI frames and they each take 100ms to initialize, spawning them in parallel means your UI is ready in 100ms total, not 1000ms. That's the difference between a snappy UI and a sluggish one.
 
 See [HUD Frame](/modules/hud-frame).
 

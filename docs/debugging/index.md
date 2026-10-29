@@ -51,11 +51,7 @@ The client blocks on `workspace.ServerLoaded`. If it never flips, the server did
 
 ## Why the bootstrapper doesn't advance past failures
 
-The bootstrapper is strict: if a service or controller fails, it halts. There's no partial-success path. This is a deliberate design choice, not a limitation.
-
-The reason is that partial success is dangerous. If a service failed to load, controllers that depend on it will get nil references and crash later. If a controller failed to start, the systems it orchestrates won't be wired up. Better to halt and tell you what's wrong than to limp along with broken systems that fail silently during gameplay.
-
-Think of it like a car assembly line: if the engine installation fails, you don't want the car to keep moving down the line with no engine. You want the line to stop, a big red light to flash, and someone to come fix the problem before anything else proceeds.
+The bootstrapper is strict: if a service or controller fails, it halts. There's no partial-success path.
 
 Common causes:
 
@@ -74,11 +70,7 @@ A frame that throws logs under `[HUD]` and is skipped. Other frames keep running
 
 ## Why HUD frames are isolated
 
-The reason we skip failing frames instead of halting is that UI elements are often independent. If the shop UI breaks, you probably still want the inventory UI to work. By isolating frame failures, you can fix one broken UI element without taking down your entire interface.
-
-This is a deliberate design trade-off. The server-side bootstrapper is strict because server systems tend to depend on each other. A broken service can cascade into broken controllers, broken game logic, and broken player experience. The client-side HUD bootstrapper is lenient because UI frames are usually independent. One broken frame shouldn't block the rest of your UI from loading.
-
-The architecture makes different choices for different contexts. Server failures halt because they're critical. Client UI failures skip because they're isolated. Understanding why helps you make similar decisions in your own code.
+A frame that throws logs under `[HUD]` and is skipped. Other frames keep running. The suffix after `Bootstrap runtime error:` names the frame module. Fix that frame, re-run, and confirm the `[HUD]` error clears.
 
 ::: info
 Contract violations fail at load time, not silently at runtime. If a module loads but behaves wrongly later, the bug is inside the module, not the architecture.

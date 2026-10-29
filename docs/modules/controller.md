@@ -17,8 +17,6 @@ Controllers are different. They need to initialize in a specific order, after al
 
 The bootstrapper loads all services first (they initialize at require time), then loads all controllers and calls `start()` on each one in order. By the time your controller's `start()` runs, every service it depends on is already there and ready.
 
-This separation exists because Roblox games have complex initialization dependencies. A PlayerJoinController needs DataStoreService to be ready before it can load player data. A CombatController needs both DataStoreService and InventoryService to be ready before it can handle combat logic. The `start()` lifecycle gives you explicit control over this sequencing.
-
 ## Contract
 
 - Location: `server/controllers/*.luau` or `client/controllers/*.luau`.
