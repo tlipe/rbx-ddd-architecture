@@ -22,6 +22,11 @@ const concepts = [
 
 <template>
   <div class="home">
+    <div class="home-header">
+      <ClientOnly>
+        <LanguageSwitcher />
+      </ClientOnly>
+    </div>
     <section class="hero">
       <div class="hero-grid"></div>
       <div class="hero-corner hero-corner-tl"></div>
