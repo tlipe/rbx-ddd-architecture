@@ -4,7 +4,7 @@
 
 **Domain-Driven Design for Roblox Studio.**
 
-One-click install. Automatic server/client bootstrapper. Conventions for small and large games.
+One-click install with automatic server/client bootstrapping and conventions that scale from small prototypes to large games.
 
 [![License: MPL-2.0](https://img.shields.io/badge/License-MPL--2.0-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.1.0-green.svg)](#)
@@ -18,12 +18,12 @@ One-click install. Automatic server/client bootstrapper. Conventions for small a
 
 | Benefit | Detail |
 |---|---|
-| **Instant setup** | One script builds the entire folder tree, bootstrappers, and contracts. Zero manual configuration. |
-| **Convention over configuration** | Services load themselves. Controllers register `start()`. No manual wiring between modules. |
-| **Synchronized server-client** | Client waits for `ServerLoaded` before initializing. No race conditions at startup. |
-| **Scale without refactoring** | Start with 3 services, grow to 30 without changing the structure. Add a module in the right folder, it's ready. |
-| **Native observability** | LogService integrated. Every load/failure appears in the Studio Output with clear context. |
-| **Explicit contract** | Typed interfaces (`Controller`, service return). Contract errors fail at load time, not silent runtime. |
+| **Instant setup** | One script builds the entire folder tree, bootstrappers, and contracts with zero manual configuration. |
+| **Convention over configuration** | Services load themselves and controllers register `start()`, eliminating manual wiring between modules. |
+| **Synchronized server-client** | Client waits for `ServerLoaded` before initializing, preventing race conditions at startup. |
+| **Scale without refactoring** | Start with 3 services and grow to 30 without changing the structure — just add a module in the right folder and it's ready. |
+| **Native observability** | LogService is integrated, so every load and failure appears in the Studio Output with clear context. |
+| **Explicit contract** | Typed interfaces (`Controller`, service return) ensure contract errors fail at load time instead of causing silent runtime issues. |
 
 ---
 
@@ -114,24 +114,9 @@ The skill generates code that follows the architecture conventions and validates
 
 ### Option A — Copy and paste
 
-Open [`install.luau`](install.luau), paste into a new Script in ServerScriptService, run. Done.
+Open [`install.luau`](install.luau), paste it into a new Script in ServerScriptService, and run — done.
 
 </div>
-
-### Option B — HttpService (remote download)
-
-1. Game Settings → Security → **Allow HTTP Requests**: ON
-2. Create a Script in ServerScriptService:
-
-```lua
-local HttpService = game:GetService("HttpService")
-local url = "https://raw.githubusercontent.com/tlipe/rbx-ddd-architecture/main/install.luau"
-local ok, source = pcall(HttpService.GetAsync, HttpService, url)
-if not ok then error(source) end
-loadstring(source)()
-```
-
-3. Run. The script downloads the latest version from GitHub.
 
 ---
 
@@ -139,13 +124,13 @@ loadstring(source)()
 
 | Path | Type | Contract |
 |---|---|---|
-| `*/services/*.luau` | ModuleScript | Long-lived infrastructure. Initializes once. Returns table with public methods OR `return 0` if side-effect only. No `start()`. Require failure aborts that service but continues others. |
-| `*/controllers/*.luau` | ModuleScript | Orchestration layer. Returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`. Called after all services load. |
-| `shared/events/*.luau` | ModuleScript | One file per server↔client connection. Named after the event. Wraps the network library call. Ends with `return 0`. |
-| `shared/index/*.luau` | ModuleScript | Pure data. Direct `return { ... }`. Query/filter/lookup goes in `shared/utils/*Helper`. |
-| `shared/registry/*.luau` | ModuleScript | Registrar/voter environment. Single expression `return { key = value, ... }`. |
-| `shared/packages/*` | Folder | External libraries ONLY. User-added. Nothing project-specific belongs here. |
-| `client/ui/frames/*.luau` | ModuleScript | One file per UI surface. Filename identifies the UI. Contains normal interface-building code. Ends with `return 0`. Spawned by HUD runner. |
+| `*/services/*.luau` | ModuleScript | Long-lived infrastructure that initializes once and returns a table with public methods, or `return 0` if side-effect only. No `start()` method. Require failure aborts that service but continues others. |
+| `*/controllers/*.luau` | ModuleScript | Orchestration layer that returns `{ start: (self) -> () }`. Bootstrapper validates type and presence of `start`, called after all services load. |
+| `shared/events/*.luau` | ModuleScript | One file per server↔client connection, named after the event. Wraps the network library call and ends with `return 0`. |
+| `shared/index/*.luau` | ModuleScript | Pure data with direct `return { ... }`. Query/filter/lookup logic goes in `shared/utils/*Helper`. |
+| `shared/registry/*.luau` | ModuleScript | Registrar/voter environment using single expression `return { key = value, ... }`. |
+| `shared/packages/*` | Folder | External libraries only, user-added. Nothing project-specific belongs here. |
+| `client/ui/frames/*.luau` | ModuleScript | One file per UI surface, filename identifies the UI. Contains normal interface-building code, ends with `return 0`, spawned by HUD runner. |
 | `client/ui/hud` | ModuleScript | Internal orchestrator. Do not modify without understanding the frame loop. |
 
 ---

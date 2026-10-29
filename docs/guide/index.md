@@ -5,7 +5,7 @@ description: What the RBX DDD architecture is, why use it, and how the server/cl
 
 # Introduction
 
-RBX DDD Architecture is a folder-and-convention foundation for Roblox Luau projects. Every module has a fixed home, a fixed lifecycle, and a fixed contract. You add files in the right folder and they work. No manual wiring between modules.
+RBX DDD Architecture is a folder-and-convention foundation for Roblox Luau projects where every module has a fixed home, lifecycle, and contract. You add files in the right folder and they work — no manual wiring between modules.
 
 One script generates the entire tree, the server and client bootstrappers, and the contract scaffolding. The structure scales from 3 services to 30 without refactoring.
 
@@ -13,12 +13,12 @@ One script generates the entire tree, the server and client bootstrappers, and t
 
 | Benefit | Detail |
 |---|---|
-| Instant setup | One script builds the entire folder tree, bootstrappers, and contracts. Zero manual configuration. |
-| Convention over configuration | Services load themselves. Controllers register `start()`. No manual wiring between modules. |
-| Synchronized server-client | Client waits for `ServerLoaded` before initializing. No race conditions at startup. |
-| Scale without refactoring | Start with 3 services, grow to 30 without changing the structure. Add a module in the right folder, it is ready. |
-| Native observability | LogService integrated. Every load/failure appears in the Studio Output with clear context. |
-| Explicit contract | Typed interfaces (`Controller`, service return). Contract errors fail at load time, not silent runtime. |
+| Instant setup | One script builds the entire folder tree, bootstrappers, and contracts with zero manual configuration. |
+| Convention over configuration | Services load themselves and controllers register `start()`, eliminating manual wiring between modules. |
+| Synchronized server-client | Client waits for `ServerLoaded` before initializing, preventing race conditions at startup. |
+| Scale without refactoring | Start with 3 services and grow to 30 without changing the structure — just add a module in the right folder and it is ready. |
+| Native observability | LogService is integrated, so every load and failure appears in the Studio Output with clear context. |
+| Explicit contract | Typed interfaces (`Controller`, service return) ensure contract errors fail at load time instead of causing silent runtime issues. |
 
 ## Initialization flow
 
