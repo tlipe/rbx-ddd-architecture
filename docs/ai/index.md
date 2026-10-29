@@ -58,11 +58,9 @@ When asking an AI to generate code for this architecture:
 ```luau
 -- server/services/InventoryService.luau
 local function addItem(player: Player, itemId: string, quantity: number)
-    -- implementation
 end
 
 local function removeItem(player: Player, itemId: string, quantity: number)
-    -- implementation
 end
 
 return {
@@ -78,7 +76,6 @@ const Players = game:GetService("Players")
 const InventoryService = require(script.Parent.Parent.services.InventoryService)
 
 local function onPlayerAdded(player: Player)
-    -- setup
 end
 
 return {
@@ -96,7 +93,6 @@ const NetworkLib = require(Packages.NetworkLib)
 
 NetworkLib.define("useItem", {
     fireServer = function(itemId: string)
-        -- wiring
     end,
 })
 

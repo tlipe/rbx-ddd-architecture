@@ -57,7 +57,6 @@ const NetworkLib = require(Packages.NetworkLib)
 
 NetworkLib.define("purchaseItem", {
 	fireServer = function(itemId: string, quantity: number)
-		-- fire/listen wiring for this connection
 	end,
 })
 
