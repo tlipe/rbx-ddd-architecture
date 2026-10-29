@@ -34,8 +34,7 @@ export default defineConfig({
         text: 'Architecture',
         items: [
           { text: 'Folder Reference', link: '/architecture/folder-reference' },
-          { text: 'Contracts', link: '/architecture/contracts' },
-          { text: 'Code Rules', link: '/architecture/code-rules' }
+          { text: 'Contracts', link: '/architecture/contracts' }
         ]
       },
       {
