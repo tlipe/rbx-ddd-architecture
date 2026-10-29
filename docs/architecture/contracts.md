@@ -71,8 +71,6 @@ See [Event](/modules/event).
 
 Both indexes and registries are pure data. You return the table directly. Never attach methods to the index table; lookup logic lives in `shared/utils/*Helper`.
 
-The reason for this strict separation is that it keeps data pure and behavior isolated. When data tables are immutable and method-free, you can reason about them without worrying about hidden side effects. And when lookup logic is in utilities, it's reusable and testable.
-
 Wrong:
 
 ```luau

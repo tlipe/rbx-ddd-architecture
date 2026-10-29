@@ -19,9 +19,7 @@ This also makes debugging easier. When a network error occurs, the stack trace p
 
 Event modules only move data across the boundary. They don't validate, transform, or act on the data. That responsibility belongs to controllers and services.
 
-The reason for this separation is testability and maintainability. If your event module contains business logic (like "check if player has enough coins before purchase"), you can't test that logic in isolation. You'd have to mock the entire network layer. But if the event just passes data through, and a service handles the validation, you can test the service directly without touching the network.
-
-It also keeps your code organized. When you need to change how purchases work, you know the logic is in the ShopService, not scattered across event handlers. The event is just the transport layer.
+When you need to change how purchases work, you know the logic is in the ShopService, not scattered across event handlers. The event is just the transport layer.
 
 ## Why both sides require the same module
 

@@ -61,13 +61,11 @@ return {
 }
 ```
 
-The controller requires the `DataStoreService` as a `const` binding. Inside `start()`, it connects signal handlers to `PlayerAdded` and `PlayerRemoving`. The handlers are named `local` functions (`onPlayerAdded`, `onPlayerRemoving`) rather than anonymous functions. This keeps the `start` body readable and makes stack traces point at real names when something goes wrong.
+The controller requires the `DataStoreService` as a `const` binding. Inside `start()`, it connects signal handlers to `PlayerAdded` and `PlayerRemoving`.
 
-Notice what the controller does: it wires signals. It doesn't know how DataStoreService loads data. It doesn't know about DataStore keys, `pcall`, or error handling. It just calls `DataService.Load(player)` and gets back the data (or `nil` if the load failed). The service handles the how. The controller handles the when.
+The `onPlayerAdded` function checks if the data is `nil` and provides default values. The service just loads data. The controller decides what to do when data is missing.
 
-The `onPlayerAdded` function checks if the data is `nil` and provides default values. This is the controller's job: handling the flow and edge cases. The service just loads data. The controller decides what to do when data is missing.
-
-The `onPlayerRemoving` function reads the current values from player attributes and saves them. Again, the controller orchestrates the flow: when a player leaves, read the current state and save it. The service handles the actual persistence.
+The `onPlayerRemoving` function reads the current values from player attributes and saves them. The controller orchestrates the flow: when a player leaves, read the current state and save it.
 
 ## Server vs client controllers
 
@@ -81,14 +79,12 @@ The distinction matters because server controllers run on the server and have ac
 
 Controllers don't hold domain logic. If you find yourself writing complex business logic inside a controller, that logic probably belongs in a service or a class. Controllers connect the dots. They don't implement the dots.
 
-For example, a controller shouldn't calculate damage formulas, validate purchase transactions, or determine level-up thresholds. Those belong in services or classes. The controller just wires the signals: when a player attacks, call the CombatService. When a player makes a purchase, call the ShopService. The service handles the logic.
-
-This separation keeps your code modular and testable. Services can be tested in isolation. Controllers can be tested by mocking services. If you mix domain logic into controllers, you lose that modularity.
+For example, a controller shouldn't calculate damage formulas, validate purchase transactions, or determine level-up thresholds. Those belong in services or classes. The controller just wires the signals: when a player attacks, call the CombatService. When a player makes a purchase, call the ShopService.
 
 ## Consumption pattern
 
-Require the service as a `const` binding. Call its public methods from inside signal handlers registered in `start()`. Keep handlers as named `local` functions so the `start` body stays readable and stack traces point at real names.
+Require the service as a `const` binding. Call its public methods from inside signal handlers registered in `start()`.
 
-The pattern is consistent: controllers consume services, connect signals, and drive the flow. They don't hold domain logic. That belongs in services or classes. This separation makes your code easier to test and reason about.
+The pattern is consistent: controllers consume services, connect signals, and drive the flow. They don't hold domain logic. That belongs in services or classes.
 
 See [Service](/modules/service) for what a controller consumes and [Contracts](/architecture/contracts) for the full validation rules.
