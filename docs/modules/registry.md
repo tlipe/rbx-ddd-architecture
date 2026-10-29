@@ -83,13 +83,9 @@ This separation also makes both easier to test. You can test the helper function
 
 ## Why no table.freeze()
 
-`table.freeze()` is a Luau feature that makes a table immutable. It sounds like a good idea for data modules. The problem is that it implies the table was mutable at some point. You create the table, modify it, then freeze it. There's a window where the table is mutable.
+Direct return removes the mutable window entirely. The table is constructed and returned in one expression. It's never mutable, even for a moment.
 
-Direct return removes that window entirely. The table is constructed and returned in one expression. It's never mutable, even for a moment.
-
-Also, `table.freeze()` adds runtime overhead. Every time you require the module, Luau has to traverse the table and mark it as frozen. With direct return, there's no freeze operation. The table is just data.
-
-If you really want immutability guarantees, rely on convention: don't modify the returned table. The architecture enforces this through the contract. If you find yourself needing to mutate the data, it doesn't belong in registry/index. Move it to a service or class.
+If you find yourself needing to mutate the data, it doesn't belong in registry/index. Move it to a service or class.
 
 ## Indexes vs registry
 

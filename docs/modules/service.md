@@ -52,11 +52,7 @@ return {
 }
 ```
 
-The two `const` bindings at the top (`DataStoreService`, `store`) are service references. They stay immutable for the module's lifetime. The inner `ok`/`result` pairs are `local` because they're mutable per-call state. Public methods are PascalCase keys in the returned table (`Load`, `Save`); internal functions are camelCase (`loadData`, `saveData`).
-
-The reason we use `pcall` is that DataStore operations can fail. Network issues, throttling, outages. By wrapping them in `pcall`, we catch errors gracefully and return meaningful values instead of crashing the caller. The service absorbs the failure and returns `nil` or `false`, letting the caller decide what to do.
-
-Notice how the service doesn't know anything about players, coins, or game logic. It just loads and saves data. The controller that uses this service knows about players and game state. The service knows about data persistence. This separation of concerns is what makes the architecture scalable.
+The service doesn't know anything about players, coins, or game logic. It just loads and saves data. The controller that uses this service knows about players and game state. The service knows about data persistence.
 
 ## Side-effect-only variant
 
